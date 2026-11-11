@@ -85,6 +85,12 @@ We need the cards created by the bkg. substraction scripts also.
    python twttbar-run2UL/differential/cardsForDiffWithCombine.py -P 2024-09-03 -y run2 -q batch -j 100 -o ./temp_Run2_cards_diff/2025-03-04_combine/ -v Lep1Lep2_DPhi -a
    ```
    Also possible to create them with the `runANplots.sh` script as for the plots.
+ 
+ * Customise the cards to simmetrise CR uncertainties and applies lowess to them. Also, the non-fiducial contribution is handled:
+   ```
+   bash twttbar-run2UL/differential/run_cards_postprocess.sh  2025-03-04_combine/ 'an older version of cards'
+   ```
+
  * Extract signal and unfold. This will draw one uncertainty band extracted from combine:
    ```bash
    python twttbar-run2UL/differential/unfoldHelperWithCombine.py -i ./temp_Run2_cards_diff/2025-03-04_combine/ -y run2 -V -v Lep1Lep2_DPhi
