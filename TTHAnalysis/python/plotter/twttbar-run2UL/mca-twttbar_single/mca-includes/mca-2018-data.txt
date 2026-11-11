@@ -1,0 +1,4 @@
+data : SingleMuon* ;
+data : EGamma*     ;
+data : DoubleMuon* ;
+data : MuonEG*     ;

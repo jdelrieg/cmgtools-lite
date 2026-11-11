@@ -1,0 +1,4 @@
+data : SingleMuon_Run2018* ;
+data : EGamma_Run2018*     ;
+data : DoubleMuon_Run2018* ;
+data : MuonEG_Run2018*     ;

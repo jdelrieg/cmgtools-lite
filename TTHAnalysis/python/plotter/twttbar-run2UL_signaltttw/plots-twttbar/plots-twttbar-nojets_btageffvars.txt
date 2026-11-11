@@ -1,0 +1,12 @@
+btag_B : abs(EffSFJetB_Eta)\:min(EffSFJetB_Pt, 249.) : [20,30,40,50,75,100,125,150,200,250]*[0.,0.4,0.8,1.2,1.8,2.4] ; IncludeUnderflow=False
+btag_C : abs(EffSFJetC_Eta)\:min(EffSFJetC_Pt, 249.) : [20,30,40,50,75,100,125,150,200,250]*[0.,0.4,0.8,1.2,1.8,2.4] ; IncludeUnderflow=False
+btag_L : abs(EffSFJetL_Eta)\:min(EffSFJetL_Pt, 249.) : [20,30,40,50,75,100,125,150,200,250]*[0.,0.4,0.8,1.2,1.8,2.4] ; IncludeUnderflow=False
+
+# Xuan's
+#btag_B : abs(EffSFJetB_Eta)\:min(EffSFJetB_Pt, 149.) : [20,40,60,80,100,120,150]*[0.,0.6,1.2,1.8,2.4] ; IncludeUnderflow=False
+#btag_C : abs(EffSFJetC_Eta)\:min(EffSFJetC_Pt, 149.) : [20,40,60,80,100,120,150]*[0.,0.6,1.2,1.8,2.4] ; IncludeUnderflow=False
+#btag_L : abs(EffSFJetL_Eta)\:min(EffSFJetL_Pt, 149.) : [20,40,60,80,100,120,150]*[0.,0.6,1.2,1.8,2.4] ; IncludeUnderflow=False
+
+btag_pt_B : min(EffSFJetB_Pt, 249.) : [20,30,40,50,75,100,125,150,200,250] ; IncludeUnderflow=False
+btag_pt_C : min(EffSFJetC_Pt, 249.) : [20,30,40,50,75,100,125,150,200,250] ; IncludeUnderflow=False
+btag_pt_L : min(EffSFJetL_Pt, 249.) : [20,30,40,50,75,100,125,150,200,250] ; IncludeUnderflow=False

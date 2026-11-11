@@ -5,7 +5,7 @@ import ROOT as r
 r.PyConfig.IgnoreCommandLineOptions = True
 r.gROOT.SetBatch(True)
 sys.path.append('{cmsswpath}/src/CMGTools/TTHAnalysis/python/plotter/tw-run2/differential/'.format(cmsswpath = os.environ['CMSSW_BASE']))
-from . import varList as vl
+import varList as vl
 
 gofcomm = "combineTool.py -M GoodnessOfFit --expectSignal 1 {combcard} -n {y}_{r} --cminDefaultMinimizerStrategy 0 --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000 --algo=saturated {preorpost} {tois} {nthreads} {queue}"
 
@@ -287,7 +287,7 @@ def makeGOFplot(task):
             down +=1
 
     minX = min(0., min(valToys))
-    maxX = min(max(valToys), sorted(valToys)[len(valToys)/2] * 4) # To avoid skewing for exta high values
+    maxX = min(max(valToys), sorted(valToys)[len(valToys)//2] * 4) # To avoid skewing for exta high values
 
     if valData > maxX * 0.9: maxX = valData * 1.1
 
@@ -346,6 +346,7 @@ if __name__ == "__main__":
     nts      = args.ntoys
     gofpost  = args.gofpostfit
     gofhisto = args.gofhisto
+    variable = args.variable
 
 
     theyears = ["2016", "2017", "2018", "run2"]
@@ -363,6 +364,7 @@ if __name__ == "__main__":
             thevars = next(os.walk(inpath + "/" + iY))[1]
             for iV in thevars:
                 if any([el in iV for el in vl.vetolist]): continue
+                if variable.lower() != "all" and iV != variable: continue
                 if not os.path.isdir(inpath + "/" + iY + "/" + iV + "/sigextr_fit_combine"): continue
                 tasks.append( (iY, iV, inpath, verbose, pretend, extra, gofpost, nthreads, nts, queue, extraslurm) )
 
@@ -374,6 +376,7 @@ if __name__ == "__main__":
             thevars = next(os.walk(inpath + "/" + iY))[1]
             for iV in thevars:
                 if any([el in iV for el in vl.vetolist]): continue
+                if variable.lower() != "all" and iV != variable: continue
                 tasks.append( (iY, iV, inpath, verbose, pretend, extra, gofpost) )
 
         for task in tasks:

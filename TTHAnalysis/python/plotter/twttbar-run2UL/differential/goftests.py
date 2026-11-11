@@ -7,10 +7,10 @@ from scipy.stats import chisquare, chi2
 from scipy.linalg import eigh
 
 sys.path.append('{cmsswpath}/src/CMGTools/TTHAnalysis/python/plotter/tw-run2/differential/'.format(cmsswpath = os.environ['CMSSW_BASE']))
-from . import beautifulUnfoldingPlots as bp
-from . import errorPropagator as ep
-from . import getLaTeXtable as tex
-from . import varList as vl
+import beautifulUnfoldingPlots as bp
+import errorPropagator as ep
+import getLaTeXtable as tex
+import varList as vl
 
 r.gROOT.SetBatch(True)
 vl.SetUpWarnings()
@@ -156,7 +156,7 @@ def GiveMeMyGoodGOFTests(tsk):
         f2 = r.TFile.Open(pathtothings + "/CovMat_particle.root",       "read")
     elif ty == "particlefidbin":
         f1 = r.TFile.Open(pathtothings + "/particlefidbinOutput.root",  "read")
-        f2 = r.TFile.Open(pathtothings + "/CovMat_particlefidbin.root", "read")
+        f2 = r.TFile.Open(pathtothings + "/CovMat_particlefidbin_v2.root", "read")
     else:
         raise RuntimeError("FATAL: type {t} is not implemented.".format(t = ty))
     
@@ -391,11 +391,14 @@ if __name__ == "__main__":
             for iY in theyears:
                 #if iY != "run2": continue
                 thevars = next(os.walk(inpath + "/" + iY))[1]
+                thevars=[ 'NJets', 'Lep1_Pt', 'Lep1Lep2BJet1BJet2MET_Pt_atlasbin', 'minimax_2j2b', 'Lep1Lep2_DPhi', 'NJetsNBJets', 'Jet1_Pt', 'Lep1Lep2BJet1BJet2_Pt_ATLAS', 'Fiducial', 'NBJets', 'minimax_geq2j2b', 'BJet1BJet2_Pt', 'Lep1Lep2BJet1BJet2_M']
+
+                print('variablesss',thevars)
                 for iV in thevars:
                     if any(el in iV for el in vl.vetolist + ["Fiducial"]): continue
 
-                    for t in ["particle", "particlefidbin"]:
-                    #for t in ["particlefidbin"]:
+                    #for t in ["particle", "particlefidbin"]:
+                    for t in ["particlefidbin"]:
                     #for t in ["particle"]:
                         tasks.append( (inpath, iY, iV, t) )
 
@@ -410,10 +413,19 @@ if __name__ == "__main__":
         for tsk in tasks:
             GiveMeMyGoodGOFTests(tsk)
 
+    varsRun = sorted(set(t[2] for t in tasks))
+    yearsRun = sorted(set(t[1] for t in tasks))
+
+    for iY in yearsRun:
+        tex.getgoftestsLaTeXtable(varsRun,
+                                    inpath + "/" + iY + "/tables/",
+                                    inpath + "/" + iY + "/")
+"""    
+    
     tex.getgoftestsLaTeXtable(["Lep1Lep2_DPhi"],
                                 inpath + "/2016/tables/",
                                 inpath + "/2016/")
-"""
+
     if year == "all" or year == "run2":
         print "\nCreating LaTeX table with all the information...\n"
 

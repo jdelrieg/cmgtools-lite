@@ -1,0 +1,7 @@
+alwaystrue : 1
+
+# NOT PARTICLE
+
+notpart : (! ((Dresschannel == 1) && (nDressSelLep == 2) && (DressLep1_Pt > 25) && (DressLep2_Pt > 20) && (DressisSS == 0) && (DressminMllAFAS > 20) && (nDressSelJet == 2) && (nDressBSelJet == 2)))
+
+#notpartsf : (! (((Dresschannel == 1) || (Dresschannel == 2) || (Dresschannel == 3)) && (nDressSelLep == 2) && (DressLep1_Pt > 25) && (DressLep2_Pt > 20) && (DressisSS == 0) && (DressminMllAFAS > 20) && (nDressSelJet == 2) && (nDressBSelJet == 2) && ((Dresschannel == 1) || (MET_fiducialGenPt > 50)) && ((Dresschannel == 1) || (abs(DressMll - 91.2) > 15))))

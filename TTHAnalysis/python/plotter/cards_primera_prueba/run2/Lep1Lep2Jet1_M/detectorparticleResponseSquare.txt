@@ -1,0 +1,12 @@
+## Datacard for cut file twttbar-run2UL/differential/cuts/cuts-detectorparticle-2j2t.txt
+shapes *        * detectorparticleResponseSquare.root x_$PROCESS x_$PROCESS_$SYSTEMATIC
+##----------------------------------
+bin         detectorparticleResponseSquare
+observation 146798.92408979946
+##----------------------------------
+##----------------------------------
+bin            detectorparticleResponseSquare 
+process                                  bb4l 
+process                                     0 
+rate                               146798.924 
+##----------------------------------

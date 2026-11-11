@@ -43,6 +43,12 @@ change: \bLep1LepJet21_DPhi\b:           Lep1LepJet21_DPhi_jesTotalDown
 change: \bLep1LepJet21_DEta\b:           Lep1LepJet21_DEta_jesTotalDown
 change: \bLep1Lep2Jet1_C\b:              Lep1Lep2Jet1_C_jesTotalDown
 change: \bHTtot\b:                       HTtot_jesTotalDown
+change: \bminimax_bjets\b:                     minimax_bjets_jesTotalDown
+change: \bminimax_bscore\b:                     minimax_bscore_jesTotalDown
+change: \bLep1BJet1_M\b:                     Lep1BJet1_M_jesTotalDown
+change: \bLep1BJet2_M\b:                     Lep1BJet2_M_jesTotalDown
+change: \bLep2BJet1_M\b:                     Lep2BJet1_M_jesTotalDown
+change: \bLep2BJet2_M\b:                     Lep2BJet2_M_jesTotalDown
 change: \bminimax\b:                     minimax_jesTotalDown
 change: \bLep1Jet2_M\b:                  Lep1Jet2_M_jesTotalDown
 change: \bLep2Jet2_M\b:                  Lep2Jet2_M_jesTotalDown
@@ -55,4 +61,9 @@ change: \bSergioBDT_1j1b\b:              SergioBDT_1j1b_jesTotalDown
 change: \bSergioBDT_2j1b\b:              SergioBDT_2j1b_jesTotalDown
 change: \btmvaBDT_1j1b\b:                tmvaBDT_1j1b_jesTotalDown
 change: \btmvaBDT_2j1b\b:                tmvaBDT_2j1b_jesTotalDown
+change: \bLep1Lep2BJet1BJet2MET_Mt\b:                Lep1Lep2BJet1BJet2MET_Mt_jesTotalDown
+change: \bLep1Lep2BJet1BJet2MET_Pt\b:                Lep1Lep2BJet1BJet2MET_Pt_jesTotalDown
+change: \bLep1Lep2BJet1BJet2_M\b:                Lep1Lep2BJet1BJet2_M_jesTotalDown
+change: \bLep1Lep2BJet1BJet2_Pt\b:                Lep1Lep2BJet1BJet2_Pt_jesTotalDown
+change: \bBJet1BJet2_Pt\b:                BJet1BJet2_Pt_jesTotalDown
 weight: 1

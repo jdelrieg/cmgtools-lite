@@ -22,7 +22,10 @@ import errorPropagator as ep
 # Identico inclusiva
 #combinecommscaff = 'combine -M FitDiagnostics --out {outdir} {infile} {asimov} --saveWorkspace -n {y}_{var} --saveShapes --saveWithUncertainties --robustFit 1 --cminDefaultMinimizerStrategy 0 --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000'
 
-combinecommscaff = 'combine -M FitDiagnostics --out {outdir} {infile} {asimov} --saveWorkspace -n {y}_{var} --saveShapes --saveWithUncertainties --robustFit 1 --cminDefaultMinimizerStrategy 0 --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000 --robustHesse 1 -m 125'
+combinecommscaff = 'combine -M FitDiagnostics --out {outdir} {infile} {asimov} --saveWorkspace -n {y}_{var} --saveShapes --saveWithUncertainties --robustFit 1 --cminDefaultMinimizerStrategy 0 --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000 --robustHesse 1 -m 125' # --robustHesse 1
+
+
+
 #combinecommscaff = 'combine -M FitDiagnostics --out {outdir} {infile} {asimov} --saveWorkspace -n {y}_{var} --saveShapes --saveWithUncertainties --robustFit 1 --cminDefaultMinimizerStrategy 0 --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000 -m 125'
 
 #combinecommscaff = 'combine  -M FitDiagnostics --out {outdir} {infile} --saveWorkspace -n {y}_{var} --saveShapes --cminDefaultMinimizerStrategy 0 --robustFit 1 --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000 --cminPreFit 3'
@@ -377,16 +380,22 @@ def drawParticleResultsv3(theres, theuncs, thecov, outdir, year, var, pretend):
 
 
     plot                 = bp.beautifulUnfPlot(var, var)
+    if var != "minimax_2j2b":plot.extraLabel = "#geq 2j2b - inclusive"
+    else: plot.extraLabel = "2j2b - exclusive"
+    if var in ["NBJets","NJets"]:plot.extraLabel = "e^{#pm}#mu^{#mp}"    
     plot.doRatio         = True
     plot.doFit           = True
     plot.doPreliminary   = vl.doPre
     plot.doSupplementary = False
     plot.plotspath       = plotspath
     plot.displayedLumi   = vl.TotalLumi if year == "run2" else vl.LumiDict[year]
+    plot.doLogY        = False if not "logy_particle" in vl.varList[var] else vl.varList[var]["logy_particle"]
 
 
     if "yaxisuplimitunf" in vl.varList[var]:
         plot.yaxisuplimit = vl.varList[var]["yaxisuplimitunf"]
+    if "yaxisdownlimitunf" in vl.varList[var]:
+        plot.yaxislowlimit = vl.varList[var]["yaxisdownlimitunf"]
 
     tex.saveLaTeXfromhisto(theres, var, outdir + "/" + iY + "/tables", errhisto = theuncs, ty = "particle")
 
@@ -420,7 +429,7 @@ def drawParticleResultsv3(theres, theuncs, thecov, outdir, year, var, pretend):
     twttbaramc_ds_runningBW    = vl.giveMeOneComparison(tmptfile, "twttbaramc_ds_runningBW",    scaleval, var, part = True)
     #twttbaramc_ds_is           = vl.giveMeOneComparison(tmptfile, "twttbaramc_ds_is",           scaleval, var, part = True)
     #twttbaramc_ds_is_runningBW = vl.giveMeOneComparison(tmptfile, "twttbaramc_ds_is_runningBW", scaleval, var, part = True)
-    bb4lv1                      = vl.giveMeOneComparison(tmptfile, "bb4lv1", scaleval, var, part = True)
+    #bb4lv1                      = vl.giveMeOneComparison(tmptfile, "bb4lv1", scaleval, var, part = True)
 
 
     tmptfile.Close()
@@ -456,12 +465,15 @@ def drawParticleResultsv3(theres, theuncs, thecov, outdir, year, var, pretend):
 
     plot.addHisto(theres,
                   'P,same{s}'.format(s = ",X0" if "equalbinsunf" in vl.varList[var] else ""),
-                  "Asimov dataset" if vl.asimov else vl.labellegend,
+                  "Data" if vl.asimov else vl.labellegend,
                   'P,same', 'data', redrawaxis = True)
-    plot.saveCanvasv2(legloc, leg = False)
+    plot.saveCanvasv2(legloc)#, leg = False)
     del plot
 
     plot2 = bp.beautifulUnfPlot(var + 'uncs', var)
+    if var != "minimax_2j2b":plot2.extraLabel = "#geq 2j2b - inclusive"
+    else: plot2.extraLabel = "2j2b - exclusive"
+    if var in ["NBJets","NJets"]:plot2.extraLabel = "e^{#pm}#mu^{#mp}"
     plot2.displayedLumi   = vl.TotalLumi if year == "run2" else vl.LumiDict[year]
     plot2.doFit           = True
     plot2.plotspath       = plotspath
@@ -648,7 +660,7 @@ def drawParticleResults(theres, theuncs, thecov, outdir, year, var, pretend):
 """
 
 def makeFit(task):
-    inpath, year, varName, pretend, doControl, noPlots, useData = task
+    inpath, year, varName, pretend, doControl, noPlots, useData, onlyPlots = task
 
     print('\n> Fitting variable', varName, 'from year', year, '\n')
     bins_detector = vl.varList[varName]['bins_detector']
@@ -677,7 +689,7 @@ def makeFit(task):
     if verbose:
         print("Text2Workspace command:", physicsModel, "\n")
 
-    if not pretend:
+    if not pretend and not onlyPlots:
         if os.path.isfile(inpath + "/" + year + "/" + varName + "/sigextr_fit_combine/fit_output.root"):
             if verbose:
                 print("    - Erasing old fit result...")
@@ -707,7 +719,7 @@ def makeFit(task):
         print("Combine command:", combinecomm, "\n")
     #"""
     # #sys.exit()
-    if not pretend:
+    if not pretend and not onlyPlots:
         #"""
         outstat = os.system(combinecomm)
         if outstat:
@@ -717,10 +729,9 @@ def makeFit(task):
     if not pretend:
         # ######sys.exit()
         
-        if not os.path.isfile('higgsCombine{y}_{var}.FitDiagnostics.mH125.root'.format(y = year, var = varName)):
-            raise RuntimeError("FATAL: no valid higgsCombine file found for variable {v} of year {y}.".format(v = varName, y = year))
-        else:
-            os.system("mv ./higgsCombine{y}_{var}.FitDiagnostics.mH125.root {fdir}".format(y = year, var = varName, fdir = fitoutpath + "/"))
+        if not onlyPlots:
+            if not os.path.isfile('higgsCombine{y}_{var}.FitDiagnostics.mH125.root'.format(y = year, var = varName)): raise RuntimeError("FATAL: no valid higgsCombine file found for variable {v} of year {y}.".format(v = varName, y = year))
+            else: os.system("mv ./higgsCombine{y}_{var}.FitDiagnostics.mH125.root {fdir}".format(y = year, var = varName, fdir = fitoutpath + "/"))
 
        #""" 
         # Ahora recogemos la virutilla
@@ -967,6 +978,7 @@ if __name__ == '__main__':
     parser.add_argument('--addControl', '-c', action  = "store_true", dest = "addctrl",  required = False, default = False)
     parser.add_argument('--noPlots',    '-np',action  = "store_true", dest = "noplots",  required = False, default = False)
     parser.add_argument('--useData',    '-uD',action  = "store_true", dest = "usedata",  required = False, default = False)
+    parser.add_argument('--onlyPlots',  '-oP',action  = "store_true", dest = "onlyPlots",required = False, default = False)
 
 
     args     = parser.parse_args()
@@ -979,10 +991,12 @@ if __name__ == '__main__':
     addctrl  = args.addctrl
     noplots  = args.noplots
     usedata  = args.usedata
+    onlyplots  = args.onlyPlots
 
 
     tasks = []
     theyears = []
+    print(inpath)
     presentyears = next(os.walk(inpath))[1]
 
     if "2016apv" in presentyears:
@@ -1012,11 +1026,11 @@ if __name__ == '__main__':
         if not os.path.isdir(inpath + "/" + iY + "/particleplots"):
             os.system("mkdir -p " + inpath + "/" + iY + "/particleplots")
         for iV in thevars:
-            if "plots" in iV or "Fiducial" in iV or "table" in iV or "response" in iV: continue
+            #if "plots" in iV or "Fiducial" in iV or "table" in iV or "response" in iV: continue
             if not os.path.isdir(inpath + "/" + iY + "/" + iV + "/sigextr_fit_combine"): continue
             if not os.path.isdir(inpath + "/" + iY + "/" + iV + "/sigextr_fit_combine/fitdiagnostics"):
                 os.system("mkdir -p " + inpath + "/" + iY + "/" + iV + "/sigextr_fit_combine/fitdiagnostics")
-            tasks.append( (inpath, iY, iV, pretend, addctrl, noplots, usedata) )
+            tasks.append( (inpath, iY, iV, pretend, addctrl, noplots, usedata,onlyplots) )
 
 
     finalresults = []

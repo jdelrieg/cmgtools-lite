@@ -1,0 +1,49 @@
+## Datacard for cut file twttbar-run2UL/differential/cuts/cuts-detectorparticle-2j2t.txt
+shapes *        * detectorparticleResponse.root x_$PROCESS x_$PROCESS_$SYSTEMATIC
+##----------------------------------
+bin         detectorparticleResponse
+observation 0.0012800000000000027
+##----------------------------------
+##----------------------------------
+bin                            detectorparticleResponse 
+process                                            bb4l 
+process                                               0 
+rate                                              0.001 
+##----------------------------------
+btagging_2016apv           lnN              0.000/0.000 
+btagging_corr              lnN              0.000/0.000 
+elecidsf                   lnN              0.000/0.000 
+elecrecosf                 lnN              0.000/0.000 
+elecsigma                  lnN              0.000/0.000 
+fsr                        lnN              0.000/0.000 
+isr                        lnN              0.000/0.000 
+jer_2016                   lnN              0.000/0.000 
+jes_Absolute               lnN              0.000/0.000 
+jes_Absolute_2016          lnN              0.000/0.000 
+jes_BBEC1                  lnN              0.000/0.000 
+jes_BBEC1_2016             lnN              0.000/0.000 
+jes_EC2                    lnN              0.000/0.000 
+jes_EC2_2016               lnN              0.000/0.000 
+jes_FlavorQCD              lnN              0.000/0.000 
+jes_HF                     lnN              0.000/0.000 
+jes_HF_2016                lnN              0.000/0.000 
+jes_RelativeBal            lnN              0.000/0.000 
+jes_RelativeSample_2016    lnN              0.000/0.000 
+jetpuid_2016apv            lnN              0.000/0.000 
+lumi_2016                  lnN              0.000/0.000 
+lumi_corr                  lnN              0.000/0.000 
+mistagging_2016apv         lnN              0.000/0.000 
+mistagging_corr            lnN              0.000/0.000 
+muonen_2016                lnN              0.000/0.000 
+muonidsf_stat_2016apv      lnN              0.000/0.000 
+muonidsf_syst              lnN              0.000/0.000 
+muonisosf_stat_2016apv     lnN              0.000/0.000 
+muonisosf_syst             lnN              0.000/0.000 
+pdfhessian                 lnN              0.000/0.000 
+pileup                     lnN              0.000/0.000 
+prefiring_2016             lnN              0.000/0.000 
+scales_muF                 lnN              0.000/0.000 
+scales_muR                 lnN              0.000/0.000 
+triggereff_2016apv         lnN              0.000/0.000 
+unclenergy                 lnN              0.000/0.000 
+* autoMCStats 10

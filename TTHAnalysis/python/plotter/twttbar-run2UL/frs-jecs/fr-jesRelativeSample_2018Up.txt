@@ -43,6 +43,12 @@ change: \bLep1LepJet21_DPhi\b:           Lep1LepJet21_DPhi_jesRelativeSample_201
 change: \bLep1LepJet21_DEta\b:           Lep1LepJet21_DEta_jesRelativeSample_2018Up
 change: \bLep1Lep2Jet1_C\b:              Lep1Lep2Jet1_C_jesRelativeSample_2018Up
 change: \bHTtot\b:                       HTtot_jesRelativeSample_2018Up
+change: \bminimax_bjets\b:                     minimax_bjets_jesRelativeSample_2018Up
+change: \bminimax_bscore\b:                     minimax_bscore_jesRelativeSample_2018Up
+change: \bLep1BJet1_M\b:                     Lep1BJet1_M_jesRelativeSample_2018Up
+change: \bLep1BJet2_M\b:                     Lep1BJet2_M_jesRelativeSample_2018Up
+change: \bLep2BJet1_M\b:                     Lep2BJet1_M_jesRelativeSample_2018Up
+change: \bLep2BJet2_M\b:                     Lep2BJet2_M_jesRelativeSample_2018Up
 change: \bminimax\b:                     minimax_jesRelativeSample_2018Up
 change: \bLep1Jet2_M\b:                  Lep1Jet2_M_jesRelativeSample_2018Up
 change: \bLep2Jet2_M\b:                  Lep2Jet2_M_jesRelativeSample_2018Up
@@ -55,6 +61,11 @@ change: \bSergioBDT_1j1b\b:              SergioBDT_1j1b_jesRelativeSample_2018Up
 change: \bSergioBDT_2j1b\b:              SergioBDT_2j1b_jesRelativeSample_2018Up
 change: \btmvaBDT_1j1b\b:                tmvaBDT_1j1b_jesRelativeSample_2018Up
 change: \btmvaBDT_2j1b\b:                tmvaBDT_2j1b_jesRelativeSample_2018Up
+change: \bLep1Lep2BJet1BJet2MET_Mt\b:                Lep1Lep2BJet1BJet2MET_Mt_jesRelativeSample_2018Up
+change: \bLep1Lep2BJet1BJet2MET_Pt\b:                Lep1Lep2BJet1BJet2MET_Pt_jesRelativeSample_2018Up
+change: \bLep1Lep2BJet1BJet2_M\b:                Lep1Lep2BJet1BJet2_M_jesRelativeSample_2018Up
+change: \bLep1Lep2BJet1BJet2_Pt\b:                Lep1Lep2BJet1BJet2_Pt_jesRelativeSample_2018Up
+change: \bBJet1BJet2_Pt\b:                BJet1BJet2_Pt_jesRelativeSample_2018Up
 
 
 weight: 1

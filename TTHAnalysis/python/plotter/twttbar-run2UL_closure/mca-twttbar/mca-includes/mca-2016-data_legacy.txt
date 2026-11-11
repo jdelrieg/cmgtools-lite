@@ -1,0 +1,5 @@
+data : SingleMuon_Run2016*     ;
+data : SingleElectron_Run2016* ;
+data : DoubleMuon_Run2016*     ;
+data : DoubleEG_Run2016*       ;
+data : MuonEG_Run2016*         ;

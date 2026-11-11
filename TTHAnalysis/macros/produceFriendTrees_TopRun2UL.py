@@ -9,18 +9,21 @@ r.gROOT.SetBatch(True)
 
 #### Settings
 prodname = "2024-09-03"
+prodname = "2025-12-23"
 
 datasamples  = ["SingleMuon", "SingleElec", "DoubleMuon", "DoubleEG", "MuonEG", "LowEGJet", "HighEGJet", "EGamma"]
 
 #mcpath       = "/beegfs/data/nanoAODv9"
 #mcpath       = "/pool/phedex/nanoAODv9"
-friendspath  = "/lustrefs/hdd_pool_dir/nanoAODv9/bb4l/productions/"
+friendspath  = "/lustrefs/analysis/nanoAODv9/bb4l/productions/"
+#friendspath  = "/pool/phedex/userstorage/jriego/nanoAODv9/bb4l/productions/"
 mcpath       = friendspath.replace("phedexrw", "phedex") + prodname + "/"
 mcpathdiv    = mcpath
 datapath     = mcpath
 
 
 logpath      = friendspath + "/" + prodname + "/{y}/{step_prefix}/logs"
+
 commandscaff = "python3 prepareEventVariablesFriendTree.py -t NanoAOD {inpath} {outpath} -I CMGTools.TTHAnalysis.tools.nanoAOD.TopRun2UL_modules {module} {friends} {dataset} -N {chunksize} {cluster} {ex}"
 clusterscaff = "--log {logdir} --name {jobname} -q {queue} --env oviedo"
 
@@ -81,6 +84,16 @@ sampledict["2016apv"] = {
     #"bb4l_fix"  : "b_bbar_4l_TuneCP5_13TeV_powheg_pythia8_gridpackfix",
     "BBLLNuNu"  : "BBLLNuNu_TuneCP5_13TeV_powheg_pythia8",
     "BBLLNuNuv1"  : "BBLLNuNu_v1_TuneCP5_13TeV_powheg_pythia8",
+    
+    "BBLLNuNu_UEup"  : "BBLLNuNu_TuneCP5up_13TeV_powheg_pythia8",
+    "BBLLNuNu_UEdown"  : "BBLLNuNu_TuneCP5down_13TeV_powheg_pythia8",
+    "BBLLNuNu_CR1"  : "BBLLNuNu_TuneCP5CR1_13TeV_powheg_pythia8",
+    "BBLLNuNu_CR2"  : "BBLLNuNu_TuneCP5CR2_13TeV_powheg_pythia8",
+    "BBLLNuNu_erdON"  : "BBLLNuNu_TuneCP5_erdON_13TeV_powheg_pythia8",    
+    "BBLLNuNu_MT-171p5"  : "BBLLNuNu_MT-171p5_TuneCP5_13TeV-powheg-pythia8",
+    "BBLLNuNu_MT-173p5"  : "BBLLNuNu_MT-173p5_TuneCP5_13TeV-powheg-pythia8",
+    "BBLLNuNu_hdampDOWN"  : "BBLLNuNu_hdampDOWN_TuneCP5_13TeV-powheg-pythia8",
+    "BBLLNuNu_hdampUP"  : "BBLLNuNu_hdampUP_TuneCP5_13TeV-powheg-pythia8",
 
 
     ###### tW
@@ -236,11 +249,17 @@ sampledict["2016apv"] = {
 
 
     ##### Datos
-    "SingleMuon"     : "SingleMuon_Run2016",
-    "SingleElectron" : "SingleElectron_Run2016",
-    "DoubleMuon"     : "DoubleMuon_Run2016",
-    "DoubleEG"       : "DoubleEG_Run2016",
-    "MuonEG"         : "MuonEG_Run2016",
+    #"SingleMuon"     : "SingleMuon_Run2016",
+    #"SingleElectron" : "SingleElectron_Run2016",
+    #"DoubleMuon"     : "DoubleMuon_Run2016",
+    #"DoubleEG"       : "DoubleEG_Run2016",
+    #"MuonEG"         : "MuonEG_Run2016",
+
+    "SingleMuon"     : "SingleMuon",
+    "SingleElectron" : "SingleElectron",
+    "DoubleMuon"     : "DoubleMuon",
+    "DoubleEG"       : "DoubleEG",
+    "MuonEG"         : "MuonEG",
 }
 
 sampledict["2016"] = {
@@ -264,6 +283,24 @@ sampledict["2016"] = {
     #"bb4l_fix" : "b_bbar_4l_TuneCP5_13TeV_powheg_pythia8_gridpackfix",
     "BBLLNuNu"  : "BBLLNuNu_TuneCP5_13TeV_powheg_pythia8",
     "BBLLNuNuv1"  : "BBLLNuNu_v1_TuneCP5_13TeV_powheg_pythia8",
+    
+    "BBLLNuNu_UEup"  : "BBLLNuNu_TuneCP5up_13TeV_powheg_pythia8",
+    "BBLLNuNu_UEdown"  : "BBLLNuNu_TuneCP5down_13TeV_powheg_pythia8",
+    "BBLLNuNu_CR1"  : "BBLLNuNu_TuneCP5CR1_13TeV_powheg_pythia8",
+    "BBLLNuNu_CR2"  : "BBLLNuNu_TuneCP5CR2_13TeV_powheg_pythia8",
+    "BBLLNuNu_erdON"  : "BBLLNuNu_TuneCP5_erdON_13TeV_powheg_pythia8",
+    "BBLLNuNu_MT-171p5"  : "BBLLNuNu_MT-171p5_TuneCP5_13TeV-powheg-pythia8",
+    "BBLLNuNu_MT-173p5"  : "BBLLNuNu_MT-173p5_TuneCP5_13TeV-powheg-pythia8",
+    "BBLLNuNu_hdampDOWN"  : "BBLLNuNu_hdampDOWN_TuneCP5_13TeV-powheg-pythia8",
+    "BBLLNuNu_hdampUP"  : "BBLLNuNu_hdampUP_TuneCP5_13TeV-powheg-pythia8",    
+    
+    #MOMENTANEO PARA LA EXTENSION
+    #"BBLLNuNu_UEup_ext"  : "BBLLNuNu_TuneCP5up_13TeV_powheg_pythia8_ext",
+    #"BBLLNuNu_UEdown_ext"  : "BBLLNuNu_TuneCP5down_13TeV_powheg_pythia8_ext",
+    #"BBLLNuNu_CR1_ext"  : "BBLLNuNu_TuneCP5CR1_13TeV_powheg_pythia8_ext",
+    #"BBLLNuNu_CR2_ext"  : "BBLLNuNu_TuneCP5CR2_13TeV_powheg_pythia8_ext",
+    #"BBLLNuNu_erdON_ext"  : "BBLLNuNu_TuneCP5_erdON_13TeV_powheg_pythia8_ext",     
+    #FIN DEL MOMENTANEO    
     ##### tW
     ## Inclusive
     #"tW"         : "ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV_powheg_pythia8",
@@ -417,11 +454,17 @@ sampledict["2016"] = {
 
 
     #### Datos
-    "SingleMuon"     : "SingleMuon_Run2016",
-    "SingleElectron" : "SingleElectron_Run2016",
-    "DoubleMuon"     : "DoubleMuon_Run2016",
-    "DoubleEG"       : "DoubleEG_Run2016",
-    "MuonEG"         : "MuonEG_Run2016",
+    #"SingleMuon"     : "SingleMuon_Run2016",
+    #"SingleElectron" : "SingleElectron_Run2016",
+    #"DoubleMuon"     : "DoubleMuon_Run2016",
+    #"DoubleEG"       : "DoubleEG_Run2016",
+    #"MuonEG"         : "MuonEG_Run2016",
+    
+    "SingleMuon"     : "SingleMuon",
+    "SingleElectron" : "SingleElectron",
+    "DoubleMuon"     : "DoubleMuon",
+    "DoubleEG"       : "DoubleEG",
+    "MuonEG"         : "MuonEG",
 }
 
 
@@ -429,6 +472,7 @@ sampledict["2016"] = {
 sampledict["2017"] = {
     ###### Nominales
     ##### ttbar
+    
     "TTTo2L2Nu"        : "TTTo2L2Nu_TuneCP5_13TeV_powheg_pythia8",
     "TTToSemiLeptonic" : "TTToSemiLeptonic_TuneCP5_13TeV_powheg_pythia8",
 
@@ -443,6 +487,19 @@ sampledict["2017"] = {
     #"bb4l_fix" : "b_bbar_4l_TuneCP5_13TeV_powheg_pythia8_gridpackfix",
     "BBLLNuNu"  : "BBLLNuNu_TuneCP5_13TeV_powheg_pythia8",
     "BBLLNuNuv1"  : "BBLLNuNu_v1_TuneCP5_13TeV_powheg_pythia8",
+    
+    "BBLLNuNu_UEup"  : "BBLLNuNu_TuneCP5up_13TeV_powheg_pythia8",
+    "BBLLNuNu_UEdown"  : "BBLLNuNu_TuneCP5down_13TeV_powheg_pythia8",
+    "BBLLNuNu_CR1"  : "BBLLNuNu_TuneCP5CR1_13TeV_powheg_pythia8",
+    "BBLLNuNu_CR2"  : "BBLLNuNu_TuneCP5CR2_13TeV_powheg_pythia8",
+    "BBLLNuNu_erdON"  : "BBLLNuNu_TuneCP5_erdON_13TeV_powheg_pythia8",    
+    "BBLLNuNu_MT-171p5"  : "BBLLNuNu_MT-171p5_TuneCP5_13TeV-powheg-pythia8",
+    "BBLLNuNu_MT-173p5"  : "BBLLNuNu_MT-173p5_TuneCP5_13TeV-powheg-pythia8",
+    "BBLLNuNu_hdampDOWN"  : "BBLLNuNu_hdampDOWN_TuneCP5_13TeV-powheg-pythia8",
+    "BBLLNuNu_hdampUP"  : "BBLLNuNu_hdampUP_TuneCP5_13TeV-powheg-pythia8",        
+    
+
+    
     ##### tW
     ### inclusiva
     #"tW"    : "ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV_powheg_pythia8",
@@ -451,7 +508,7 @@ sampledict["2017"] = {
     ### nofullyhad
     "tW_noFullHad"    : "ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV_powheg_pythia8",
     "tbarW_noFullHad" : "ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV_powheg_pythia8",
-
+    
     ### DS nofullyhad
     "tW_noFullHad_DS"    : "ST_tW_top_5f_DS_NoFullyHadronicDecays_TuneCP5_13TeV_powheg_pythia8",
     "tbarW_noFullHad_DS" : "ST_tW_antitop_5f_DS_NoFullyHadronicDecays_TuneCP5_13TeV_powheg_pythia8",
@@ -596,11 +653,18 @@ sampledict["2017"] = {
     "TTTo2L2Nu_erdON" : "TTTo2L2Nu_TuneCP5_erdON_13TeV_powheg_pythia8",
 
     ##### Datos
-    "SingleMuon"     : "SingleMuon_Run2017",
-    "SingleElectron" : "SingleElectron_Run2017",
-    "DoubleMuon"     : "DoubleMuon_Run2017",
-    "DoubleEG"       : "DoubleEG_Run2017",
-    "MuonEG"         : "MuonEG_Run2017",
+    #"SingleMuon"     : "SingleMuon_Run2017",
+    #"SingleElectron" : "SingleElectron_Run2017",
+    #"DoubleMuon"     : "DoubleMuon_Run2017",
+    #"DoubleEG"       : "DoubleEG_Run2017",
+    #"MuonEG"         : "MuonEG_Run2017",
+
+    ##### Datos
+    "SingleMuon"     : "SingleMuon",
+    "SingleElectron" : "SingleElectron",
+    "DoubleMuon"     : "DoubleMuon",
+    "DoubleEG"       : "DoubleEG",
+    "MuonEG"         : "MuonEG",    
 }
 
 
@@ -647,6 +711,17 @@ sampledict["2018"] = {
     #"bb4l_fix"  : "b_bbar_4l_TuneCP5_13TeV_powheg_pythia8_gridpackfix",
     "BBLLNuNu"  : "BBLLNuNu_TuneCP5_13TeV_powheg_pythia8",
     "BBLLNuNuv1"  : "BBLLNuNu_v1_TuneCP5_13TeV_powheg_pythia8",
+    
+    "BBLLNuNu_UEup"  : "BBLLNuNu_TuneCP5up_13TeV_powheg_pythia8",
+    "BBLLNuNu_UEdown"  : "BBLLNuNu_TuneCP5down_13TeV_powheg_pythia8",
+    "BBLLNuNu_CR1"  : "BBLLNuNu_TuneCP5CR1_13TeV_powheg_pythia8",
+    "BBLLNuNu_CR2"  : "BBLLNuNu_TuneCP5CR2_13TeV_powheg_pythia8",
+    "BBLLNuNu_erdON"  : "BBLLNuNu_TuneCP5_erdON_13TeV_powheg_pythia8",    
+
+    "BBLLNuNu_MT-171p5"  : "BBLLNuNu_MT-171p5_TuneCP5_13TeV-powheg-pythia8",
+    "BBLLNuNu_MT-173p5"  : "BBLLNuNu_MT-173p5_TuneCP5_13TeV-powheg-pythia8",
+    "BBLLNuNu_hdampDOWN"  : "BBLLNuNu_hdampDOWN_TuneCP5_13TeV-powheg-pythia8",
+    "BBLLNuNu_hdampUP"  : "BBLLNuNu_hdampUP_TuneCP5_13TeV-powheg-pythia8",        
     #### W Jets
     #### LO
     #"WJetsToLNu_LO" : "WJetsToLNu_TuneCP5_13TeV_madgraphMLM_pythia8",
@@ -779,10 +854,15 @@ sampledict["2018"] = {
 
 
     ##### Datos
-    "SingleMuon" : "SingleMuon_Run2018",
-    "EGamma"     : "EGamma_Run2018",
-    "DoubleMuon" : "DoubleMuon_Run2018",
-    "MuonEG"     : "MuonEG_Run2018",
+    #"SingleMuon" : "SingleMuon_Run2018",
+    #"EGamma"     : "EGamma_Run2018",
+    #"DoubleMuon" : "DoubleMuon_Run2018",
+    #"MuonEG"     : "MuonEG_Run2018",
+
+    "SingleMuon" : "SingleMuon",
+    "EGamma"     : "EGamma",
+    "DoubleMuon" : "DoubleMuon",
+    "MuonEG"     : "MuonEG",
 }
 
 """
@@ -852,13 +932,13 @@ def getFriendsFolder(dataset, basepath, step_friends):
 
 def SendDatasetJobs(task):
     dataset, year, step, inputpath_, isData, queue, extra, regexp, pretend, nthreads = task
-    outpath_ = friendspath + "/" + prodname + "/" + str(year) + "/" + friendfolders[step]
-    #outpath_ = "/beegfs/data/nanoAODv9/temp/pruebinajetpuid/" + str(year) + "/" + friendfolders[step]
+    outpath_ = friendspath + "/" + prodname + "/" + str(year) + "/mergedFiles" + "/" + friendfolders[step]
+    #outpath_ = "/beegfs/data/nanoAODv9/temp/pruebinajetpuid/" + str(year) + "/mergedFiles" + "/" + friendfolders[step]
     dataset_ = ("--dm " if regexp else "-d ") + dataset
     jobname_ = "happyTF_{y}_{d}_{s}".format(y = year, d = dataset, s = step)
     logdir_  = logpath.format(step_prefix = friendfolders[step], y = year)
 
-    friendsbasepath = friendspath + "/" + prodname + "/" + str(year) + "/"
+    friendsbasepath = friendspath + "/" + prodname + "/" + str(year) + "/mergedFiles" + "/"
     friendpref = "-F Friends "
     friendsuff = "/{cname}_Friend.root"
 
@@ -928,7 +1008,7 @@ def GeneralSubmitter(task):
         isData     = any(ext in dataset_ for ext in datasamples)
         #isDivision = ("division" in dataset_)
         isDivision = False
-        inputpath_ = ((datapath if isData else mcpath) + "/" + str(year) + "/") if not isDivision else (mcpathdiv + "/" + ("ttbar" if "TTTo2L2Nu" in dataset_ else "tw_incl") + "/" + str(year) + "/")
+        inputpath_ = ((datapath if isData else mcpath) + "/" + str(year) + "/mergedFiles" + "/") if not isDivision else (mcpathdiv + "/" + ("ttbar" if "TTTo2L2Nu" in dataset_ else "tw_incl") + "/" + str(year) + "/mergedFiles" + "/")
 
         if not os.path.isdir(logpath.format(step_prefix = friendfolders[step], y = year)):
             os.system("mkdir -p " + logpath.format(step_prefix = friendfolders[step], y = year))
@@ -958,7 +1038,7 @@ def getActualDatasets(listoffiles):
 
 def getNchunks(fileparts, year, step, folder):
     isData = any(ext in (fileparts[0] if isinstance(fileparts, list) else fileparts) for ext in datasamples)
-    #folder = (datapath if isData else mcpath) + "/" + str(year) + "/"
+    #folder = (datapath if isData else mcpath) + "/" + str(year) + "/mergedFiles" + "/"
 
     totalEntries = 0
     if isinstance(fileparts, list):
@@ -981,8 +1061,8 @@ def CheckChunksByDataset(task):
     isData     = any(ext in dataset for ext in datasamples)
     #isDivision = ("division" in dataset)
     isDivision = False
-    inputpath_ = ((datapath if isData else mcpath) + "/" + str(year) + "/") if not isDivision else (mcpathdiv + "/" + ("ttbar" if "TTTo2L2Nu" in dataset else "tw_incl") + "/" + str(year) + "/")
-    basefolder = friendspath + "/" + prodname + "/" + str(year) + "/" + friendfolders[step]
+    inputpath_ = ((datapath if isData else mcpath) + "/" + str(year) + "/mergedFiles" + "/") if not isDivision else (mcpathdiv + "/" + ("ttbar" if "TTTo2L2Nu" in dataset else "tw_incl") + "/" + str(year) + "/mergedFiles" + "/")
+    basefolder = friendspath + "/" + prodname + "/" + str(year) + "/mergedFiles" + "/" + friendfolders[step]
 
 
     if isinstance(sampledict[year][dataset], list):
@@ -1049,8 +1129,8 @@ def CheckMergedDataset(task):
 
     #isDivision = ("division" in dataset)
     isDivision = False
-    inputpath_ = ((datapath if isData else mcpath) + "/" + str(year) + "/") if not isDivision else (mcpathdiv + "/" + ("ttbar" if "TTTo2L2Nu" in dataset else "tw_incl") + "/" + str(year) + "/")
-    basefolder = friendspath + "/" + prodname + "/" + str(year) + "/" + friendfolders[step]
+    inputpath_ = ((datapath if isData else mcpath) + "/" + str(year) + "/mergedFiles" + "/") if not isDivision else (mcpathdiv + "/" + ("ttbar" if "TTTo2L2Nu" in dataset else "tw_incl") + "/" + str(year) + "/mergedFiles" + "/")
+    basefolder = friendspath + "/" + prodname + "/" + str(year) + "/mergedFiles" + "/" + friendfolders[step]
 
 
     if isinstance(sampledict[year][dataset], list):
@@ -1100,7 +1180,7 @@ def CheckMergedDataset(task):
 
 
 def MergeThoseChunks(year, step, queue, extra, noconf = False):
-    basefolder = friendspath + "/" + prodname + "/" + str(year) + "/" + friendfolders[step]
+    basefolder = friendspath + "/" + prodname + "/" + str(year) + "/mergedFiles" + "/" + friendfolders[step]
     chunklist  = [f for f in os.listdir(basefolder) if (".root" in f and "chunk" in f)]
     if len(chunklist) == 0:
         print("> No chunks found in the search folder! ({f})".format(f = basefolder))
@@ -1140,6 +1220,7 @@ def MergeThoseChunks(year, step, queue, extra, noconf = False):
                     if ".root" not in dictofmerges[dat]:
                         print("\n    - Merging the {nch} chunks of dataset {d}.".format(nch = len(dictofmerges[dat]), d = dat))
                         comm = "hadd -f3 " + basefolder + "/" + dat + "Friend.root "
+                        
 
 
                         #### NOTE: this step of ordering is EXTREMELY IMPORTANT. PLEASE DO NOT MERGE FTREES W/O FIRST ORDERING THE CHUNKS!!!! In addition, please note THAT HERE NO ATTENTION IS PAYED TO WHETHER ALL THE INTERMEDIATE CHUNKS EXIST OR IF SOME EXTRA CHUNK SHOULD BE INCLUDED. You should CHECK the chunks BEFORE merging.
@@ -1147,6 +1228,13 @@ def MergeThoseChunks(year, step, queue, extra, noconf = False):
                         tmpnchks = 1 + max( [ int(el.replace(".chunk", "").replace(".root", "")) for el in dictofmerges[dat] ] )
 
                         for ichk in range(tmpnchks): comm += " " + basefolder + "/" + dat + "Friend.chunk{i}.root".format(i = ichk)
+                        
+                        #if (dat=="BBLLNuNu_TuneCP5CR1_13TeV_powheg_pythia8_0_") & ("2018" in basefolder): 
+                        #    for ichk in range(tmpnchks): 
+                        #        if ichk not in [11,12]: comm += " " + basefolder + "/" + dat + "Friend.chunk{i}.root".format(i = ichk);print('entre por vez',ichk)
+                        #        else: continue
+                        #else: 
+                        #    for ichk in range(tmpnchks): comm += " " + basefolder + "/" + dat + "Friend.chunk{i}.root".format(i = ichk)                   
                         print("Command: " + comm)
                         #sys.exit()
                         os.system(comm)
@@ -1234,7 +1322,7 @@ def CheckLotsOfMergedDatasets(dataset, year, step, queue, extra, ncores):
         if confirm("> Do you want to remerge these datasets? The current merged files will be deleted and afterwards, they will be reproduced (please note that all non-merged chunks in the folder will be merged!)"):
             for d in fullpendingdict:
                 for part in fullpendingdict[d]:
-                    tmpfile = friendspath + "/" + prodname + "/" + str(year) + "/" + friendfolders[step] + "/" + part.replace(".root", "") + "_Friend.root"
+                    tmpfile = friendspath + "/" + prodname + "/" + str(year) + "/mergedFiles" + "/" + friendfolders[step] + "/" + part.replace(".root", "") + "_Friend.root"
                     print("   - Erasing file {f}".format(f = tmpfile))
                     os.system("rm " + tmpfile)
             MergeThoseChunks(year, step, queue, extra, noconf = True)
@@ -1300,7 +1388,7 @@ def CheckLotsOfChunks(dataset, year, step, queue, extra, ncores, mva, nthreads):
                         isData     = any(ext in part for ext in datasamples)
                         #isDivision = ("division" in d)
                         isDivision = False
-                        inputpath_ = ((datapath if isData else mcpath) + "/" + str(year) + "/") if not isDivision else (mcpathdiv + "/" + ("ttbar" if "TTTo2L2Nu" in d else "tw_incl") + "/" + str(year) + "/")
+                        inputpath_ = ((datapath if isData else mcpath) + "/" + str(year) + "/mergedFiles" + "/") if not isDivision else (mcpathdiv + "/" + ("ttbar" if "TTTo2L2Nu" in d else "tw_incl") + "/" + str(year) + "/mergedFiles" + "/")
                         tasks.append( (part.replace(".root", ""), year, step, inputpath_, isData, queue, "-c {chk} ".format(chk = ch) + extra, False, False, nthreads) )
                         #sys.exit()
 
@@ -1365,12 +1453,12 @@ if __name__=="__main__":
 
     if erasech:
         print("\n====== ATTENTION!!!!!! ======")
-        print("This will erase ALL CHUNKS in production " + prodname + "'s folder for year " + str(year) + " that are present in these subfolders (if they exist):")
+        print("This will erase ALL CHUNKS in production " + prodname + "'s folder for year " + str(year) + "/mergedFiles" + " that are present in these subfolders (if they exist):")
         erasecomm = "rm -f {path}"
         for step,name in friendfolders.items():
             print("- " + name)
         if confirm("\n> Do you REALLY want to continue?"):
-            basefolder = friendspath + "/" + prodname + "/" + str(year) + "/"
+            basefolder = friendspath + "/" + prodname + "/" + str(year) + "/mergedFiles" + "/"
             for step,name in friendfolders.items():
                 if os.path.isdir(basefolder + name):
                     if any(["chunk" in el for el in os.listdir(basefolder + name)]):

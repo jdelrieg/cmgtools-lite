@@ -12,6 +12,9 @@ cmsTextFont   = 61
 writeExtraText = True
 extraText   = "Preliminary"
 extraTextFont = 52 
+extraText2  = ""
+extraText2Font = 42
+extraText2Spacing = 1.4
 
 lumiTextSize     = 0.6
 lumiTextOffset   = 0.2
@@ -155,9 +158,17 @@ def CMS_lumi(pad,  iPeriod,  iPosX , aLittleExtra=0.04):
             posX_ =   l +  relPosX*(1+l-r) + aLittleExtra
             posY_ =   1-t+lumiTextOffset*t
 
-        latex.SetTextFont(extraTextFont)
-        latex.SetTextSize(extraTextSize*t)
-        latex.SetTextAlign(align_)
-        latex.DrawLatex(posX_, posY_, extraText)      
+        textY = posY_
+        if extraText:
+            latex.SetTextFont(extraTextFont)
+            latex.SetTextSize(extraTextSize*t)
+            latex.SetTextAlign(align_)
+            latex.DrawLatex(posX_, textY, extraText)
+            textY -= extraText2Spacing * extraTextSize * t
+        if extraText2:
+            latex.SetTextFont(extraText2Font)
+            latex.SetTextSize(extraTextSize*t)
+            latex.SetTextAlign(align_)
+            latex.DrawLatex(posX_, textY, extraText2)
 
     pad.Update()

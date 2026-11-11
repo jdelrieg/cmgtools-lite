@@ -191,8 +191,10 @@ dressfwdjetID      = lambda j : ( abs(j.eta) >= 2.4 and abs(j.eta) < 5.0 and
 dressfwdloosejetID = lambda j : ( abs(j.eta) >= 2.4 and abs(j.eta) < 5.0 and (abs(j.eta) < 2.7 or abs(j.eta) >= 3.0) and j.pt > IDDict["jets"]["pt2"] )
 
 
+
 #### JET TREATMENTS ###
-jecGroups = {'HF'                   : ['PileUpPtHF', 'RelativeJERHF', 'RelativePtHF'],
+
+jecGroups = {'HF'                   : ['PileUpPtHF', 'RelativeJERHF', 'RelativePtHF'],    #For the reduced set of unceratinties
              'BBEC1_{year}'         : ['RelativeJEREC1', 'RelativePtEC1', 'RelativeStatEC'],
              'FlavorQCD'            : ['FlavorQCD'],
              'RelativeSample_{year}': ['RelativeSample'],
@@ -205,7 +207,36 @@ jecGroups = {'HF'                   : ['PileUpPtHF', 'RelativeJERHF', 'RelativeP
              'Absolute'             : ['AbsoluteMPFBias', 'AbsoluteScale', 'Fragmentation', 'PileUpDataMC',
                                        'PileUpPtRef', 'RelativeFSR', 'SinglePionECAL', 'SinglePionHCAL'],
 }
-
+"""
+jecGroups = {'PileUpPtHF'                   : ['PileUpPtHF'],   #For all 27 sources
+             'RelativeJERHF': ['RelativeJERHF'], 
+             'RelativePtHF': ['RelativePtHF'],
+             'RelativeJEREC1_{year}'         : ['RelativeJEREC1'], 
+             'RelativePtEC1_{year}' : ['RelativePtEC1'], 
+             'RelativeStatEC_{year}': ['RelativeStatEC'],
+             'FlavorQCD'            : ['FlavorQCD'],
+             'RelativeSample_{year}': ['RelativeSample'],
+             'PileUpPtEC2'                  : ['PileUpPtEC2'],
+             'RelativeStatHF_{year}'            : ['RelativeStatHF'],
+             'RelativeBal'          : ['RelativeBal'],
+             'AbsoluteStat_{year}'      : ['AbsoluteStat'], 
+             'RelativeStatFSR_{year}': ['RelativeStatFSR'], 
+             'TimePtEta_{year}' : ['TimePtEta'],
+             'PileUpPtBB'                : ['PileUpPtBB'], 
+             'PileUpPtEC1' : ['PileUpPtEC1'], 
+             'RelativePtBB' : ['RelativePtBB'],
+             'RelativeJEREC2_{year}'           : ['RelativeJEREC2'], 
+             'RelativePtEC2_{year}': ['RelativePtEC2'],
+             'AbsoluteMPFBias': ['AbsoluteMPFBias'],
+             'AbsoluteScale' : ['AbsoluteScale'],
+             'Fragmentation' : ['Fragmentation'],
+             'PileUpDataMC': ['PileUpDataMC'],
+             'PileUpPtRef': ['PileUpPtRef'],
+             'RelativeFSR': ['RelativeFSR'],
+             'SinglePionECAL' : ['SinglePionECAL'],
+             'SinglePionHCAL' : ['SinglePionHCAL'],
+}
+"""
 
 from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetHelperRun2 import createJMECorrector
 
@@ -490,6 +521,6 @@ btagEffFtree_2018 = lambda : btageffVars_TopRun2UL(wp_   = "M",
 
 
 ### Friend tree 5
-from CMGTools.TTHAnalysis.tools.particleAndPartonVars_tagBjets_TopRun2UL import particleAndPartonVars_tagBjets_TopRun2UL 
-tagIsHF = lambda : particleAndPartonVars_tagBjets_TopRun2UL()
+#from CMGTools.TTHAnalysis.tools.particleAndPartonVars_tagBjets_TopRun2UL import particleAndPartonVars_tagBjets_TopRun2UL 
+#tagIsHF = lambda : particleAndPartonVars_tagBjets_TopRun2UL()
 

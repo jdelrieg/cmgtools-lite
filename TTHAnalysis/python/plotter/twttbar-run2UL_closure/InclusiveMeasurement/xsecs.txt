@@ -1,0 +1,10 @@
+xsec(Lep1_Pt_ATLAS): 3753.07 +/- 310.97 (total) fb
+fid_xsec(Lep1_Pt_ATLAS): 3753.07 fb
+ -----
+ xsec(Lep1Lep2_DPhi): 3753.07 +/- 281.52 (total) fb
+fid_xsec(Lep1Lep2_DPhi): 3753.07 fb
+ -----
+ xsec(minimax_ATLAS): 3753.07 +/- 1208.30 (total) fb
+fid_xsec(minimax_ATLAS): 3753.07 fb
+ -----
+ 

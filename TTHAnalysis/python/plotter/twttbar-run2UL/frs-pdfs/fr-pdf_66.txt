@@ -1,2 +1,2 @@
-weight : Alt$(LHEPdfWeight[66],1)
-alt-norm : Alt$(LHEPdfSumw[66]/LHEScaleSumw[4],1)
+# This number has been computed by properly normalizing to the fiducial cross section of the WZ sample
+weight   : 1.0002541306807022

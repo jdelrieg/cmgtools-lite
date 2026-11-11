@@ -19,6 +19,7 @@ parser.add_option("--categorize",           dest="categ", type="string", nargs=3
 parser.add_option("--categorize-by-ranges", dest="categ_ranges", type="string", nargs=2, default=None, help="Split in categories according to the signal extraction variables. Requires 2 arguments: binning (in bin numbers), bin labels")
 parser.add_option("--regularize",           dest="regularize", action="store_true", default=False, help="Regularize templates")
 parser.add_option("--threshold",            dest="threshold", type=float, default=0.0, help="Minimum event yield to consider processes")
+parser.add_option("--control_lnN",          dest="control_lnN", action="store_true", default=False, help="Decide whether to keep lnN systematics even if the variation is very low")
 parser.add_option("--filter",               dest="filter", type="string", default=None, help="File with list of processes to be removed from the datacards")
 parser.add_option("--storeAll",             dest = "storeall",       action = "store_true", default = False, help = "Store all histograms in the final rootfile, including those of normalisation uncertainties.")
 parser.add_option("--notMinimumFill",       dest = "notminimumfill", action = "store_true", default = False, help = "Don't crop bins whenever they show low number of entries, or negative ones.")
@@ -209,12 +210,13 @@ for binname, report in allreports.items():
             for p,(hup,hdn) in effshape.items():
                 i0 = allyields[p]
                 kup, kdn = hup.Integral()/i0, hdn.Integral()/i0
-                if abs(kup*kdn-1)<1e-5 or abs(kdn-1)<5e-4:
-                    if abs(kup-1)>5e-4:
-                        effyield[p] = "%.3f" % kup
-                        isNorm = True
+                if options.control_lnN == True:
+                    if abs(kup*kdn-1)<1e-5 or abs(kdn-1)<5e-4:
+                        if abs(kup-1)>5e-4:
+                            effyield[p] = "%.5f" % kup
+                            isNorm = True
                 else:
-                    effyield[p] = "%.3f/%.3f" % (kdn,kup)
+                    effyield[p] = "%.5f/%.5f" % (kdn,kup)
                     isNorm = True
             if isNorm or options.storeall:
                 thedict = {}

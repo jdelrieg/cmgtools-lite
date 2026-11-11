@@ -7,6 +7,11 @@ import ROOT, sys
 import numpy as np
 import statsmodels.api as sm
 
+# If True, enforce that an alternative-sample variation is applied to only one
+# matched process. If False, allow the same variation to be applied to every
+# process that matches `var.procmatch()` in `buildVariationsFromAlternative`.
+# Default True preserves existing behavior.
+ENFORCE_SINGLE_ALT_SAMPLE_APPLICATION = True
 def _cloneNoDir(hist,name=''):
     ret = hist.Clone(name)
     ret.SetDirectory(ROOT.nullptr)
@@ -228,7 +233,9 @@ def buildVariationsFromAlternative(uncfile, ret, theY):
                     onlyone = True
 
             if hasBeenApplied:
-                raise RuntimeError("Variation %s is being applied to at least two processes"%var.name)
+                if ENFORCE_SINGLE_ALT_SAMPLE_APPLICATION:
+                    raise RuntimeError("Variation %s is being applied to at least two processes"%var.name)
+                # else: allow applying the same variation to multiple matched processes
             if   var.args[0] not in ret:
                 raise RuntimeError("The first alternative sample, %s, has not been processed. Available samples are %s"%(var.args[0], ', '.join(k for k in ret)))
             elif var.args[1] not in ret and not dosymm and not onlyone:
@@ -357,10 +364,18 @@ def buildVariationsFromAlternative(uncfile, ret, theY):
                 yvalDnLowess = np.array(yvalDnLowess)
                 nominalLowess = np.array(nominalLowess)
                 
-                ratio_diff = (yvalUpLowess/nominalLowess - yvalDnLowess/nominalLowess)/2.
+                #HARCODED TO AVOID MY PROBLEM
+                nominalForRatio = nominalLowess.copy()
+                nominalForRatio[nominalForRatio==0]=1.
+                ratio_diff = (yvalUpLowess / nominalForRatio- yvalDnLowess / nominalForRatio) / 2.
+                #UNCOMMENT THE FOLLOWING LINE WHEN SOLVED
+                
+                #ratio_diff = (yvalUpLowess/nominalLowess - yvalDnLowess/nominalLowess)/2.
+                #print('debugging lowess','\n ratio_diff',ratio_diff,'\n nominalLowess',nominalLowess,'\n yvalUpLowess',yvalUpLowess,'\n yvalDnLowess',yvalDnLowess)
                 diff_smooth = sm.nonparametric.lowess(ratio_diff, xvalLowess)[:,1]
 
                 # Chi2 part
+                #print('debugging lowess a canyonazos','\n diff_smooth',diff_smooth,'\n nominalLowess',nominalLowess,'\n yvalUpLowess',yvalUpLowess,'\n yvalDnLowess',yvalDnLowess,'\n np.var(nominalLowess)',np.var(nominalLowess),'np.var(yvalUpLowess)',np.var(yvalUpLowess),'np.var(yvalDnLowess)',np.var(yvalDnLowess))
                 up_scale = get_smoothed_scale_factor( diff_smooth, nominalLowess, yvalUpLowess, np.var(nominalLowess), np.var(yvalUpLowess))
                 down_scale = get_smoothed_scale_factor( diff_smooth, nominalLowess, yvalDnLowess, np.var(nominalLowess), np.var(yvalDnLowess))
 

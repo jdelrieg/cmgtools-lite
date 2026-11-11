@@ -7,7 +7,7 @@ nloosejets: nJetSel20_Recl : [-0.5,0.5,1.5,2.5,3.5] ; LegendCutoff=0, XTitle='Nu
 #nfwdloosejets  : nFwdJetSel20_Recl      : [-0.5,0.5,1.5,2.5,3.5] ; IncludeUnderflow=False, LegendCutoff=0,  XTitle='Number of forward loose jets', XNDiv=5, xBinLabels="0\,1\,2\,#geq 3"
 
 
-jet1_pt   : Jet1_Pt                        : 18,20,200     ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="Leading jet p_{T} (GeV)"
+jet1_pt   : Jet1_Pt                        : 18,20,200     ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="Leading jet #it{p}_{T} (GeV)"
 jet1_eta  : Jet_eta[iJetSel30_Recl[0]]     : 15,-2.4,2.4   ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="Leading jet #eta"
 jet1_e    : Jet1_E                         : 14,10,250             ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="Leading jet energy (GeV)"
 jet1_phi  : Jet_phi[iJetSel30_Recl[0]]     : 40,-3.14,3.14  ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="Leading jet #varphi (rad)"
@@ -30,7 +30,7 @@ jet2_btag : Jet_btagDeepFlavB[iJetSel30_Recl[1]] : 20,0,1  ; IncludeUnderflow=Fa
 #jetfwd2_phi  : Jet_phi[iFwdJetSel30_Recl[1]]     : 40,-3.14,3.14  ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="Subleading forward #varphi (rad)"
 
 
-lep1_pt   : LepGood_pt_corrAll[0]  : 14,10,150             ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="Leading lepton p_{T} (GeV)"
+lep1_pt   : LepGood_pt_corrAll[0]  : 14,10,150             ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="Leading lepton #it{p}_{T} (GeV)"
 lep1_eta  : LepGood_eta[0]         : 15,-2.4,2.4           ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="Leading lepton #eta"
 
 lep2_pt   : LepGood_pt_corrAll[1]  : 14,10,150             ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="Subleading lepton p_{T} (GeV)"
@@ -64,7 +64,9 @@ lep1jet1_dr        : Lep1Jet1_DR         : 20,0,5   ; IncludeUnderflow=False, Le
 lep2jet1_pt        : Lep2Jet1_Pt         : 20,0,200 ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="//it{p}_{T} (\\ell_{2}\, \\it{j}) (GeV)"
 lep2jet1_m         : Lep2Jet1_M          : 20,0,200 ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="m (\\ell_{2}\, \\it{j}) (GeV)"
 
-minimax  : minimax : 15,0,450 ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="m_{bl}^{minimax} (GeV)", Logy
+minimax  : minimax : 15,0,450 ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="m_{bl}^{minimax} (GeV)",Logy, YMin=1.1,YMax=700000
+
+minimax_toemulate  : minimax : [0., 50., 70., 90., 110., 130., 150., 170., 190., 210., 230., 255., 270., 310., 340., 500.] ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="m_{bl}^{minimax} (GeV)",Logy
 
 lep1jet1_dr        : Lep1Jet1_DR         : 10,0,1   ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="\\Delta R (\\ell_{1}\, jet)"
 lep12jet12_dr      : Lep12Jet12_DR       : 10,0,1   ; IncludeUnderflow=False, LegendCutoff=0,  XTitle="\\Delta R (\\ell_{12}\, jet_{12})"

@@ -9,13 +9,14 @@ import varList as vl
 r.PyConfig.IgnoreCommandLineOptions = True
 r.gROOT.SetBatch(True)
 
-friendspath   = "/lustrefs/hdd_pool_dir/nanoAODv9/bb4l/productions"
+#friendspath   = "/lustrefs/hdd_pool_dir/nanoAODv9/bb4l/productions"
+friendspath   = "/lustrefs/analysis/nanoAODv9/bb4l/productions"
 logpath       = friendspath + "/{p}/{y}/logs/cards_differential"
 
 friendsscaff = "--FMCs {P}/0_jecs --Fs {P}/1_lepsuncsAndParticle --Fs {P}/2_cleaning --Fs {P}/3_varstrigger --FMCs {P}/4_scalefactors"
 
-slurmscaff    = "sbatch -c {nth} -p {queue} -J {jobname} -e {logpath}/log.%j.%x.err -o {logpath}/log.%j.%x.out --wrap '{command}'"
-
+slurmscaff    = "sbatch  -c {nth} -p {queue} -J {jobname} -e {logpath}/log.%j.%x.err -o {logpath}/log.%j.%x.out --wrap '{command}'"
+                       #--exclude gae030
 commandscaff  = '''python3 makeShapeCards_TopRun2.py --tree NanoAOD {mcafile} {cutsfile} "{variable}" "{bins}" {samplespaths} {friends} --od {outpath} -l {lumi} {nth} -f -L twttbar-run2UL/functions_twttbar.cc --neg {weights} --year {year} {asimovornot} {uncs} {extra} {name} --AP --storeAll --notVarsChanges --threshold 0.001'''
 #commandscaff  = '''python makeShapeCardsNew.py --tree NanoAOD {mcafile} {cutsfile} "{variable}" "{bins}" {samplespaths} {friends} --od {outpath} -l {lumi} {nth} -f -L twttbar-run2UL/functions_tw.cc --neg --threshold 0.01 {weights} --year {year} {asimovornot} {uncs} {extra} {name} --AP --storeAll'''
 
@@ -69,7 +70,8 @@ def CardsCommand(prod, year, var, isAsimov, nthreads, outpath, region, noUnc, us
     cutsfile_  = "twttbar-run2UL/differential/cuts/cuts-{reg}-{njnt}.txt".format(reg = region.replace("Response", "").replace("Square", "").replace("All", "") if ("forExtr" not in region and "but" not in region and "control" not in region) else "detectorparticle" if "but" in region else "detector",
                                                                                          njnt = njnt)
 
-    samplespaths_ = "-P " + friendspath + "/" + prod + ("/" + year) * (year != "run2")
+    if year == "run2": samplespaths_ = "-P " + friendspath + "/" + prod + ("/" + year) * (year != "run2")
+    if year != "run2": samplespaths_ = "-P " + friendspath + "/" + prod + ("/" + year) * (year != "run2") + "/mergedFiles"
     if useFibre: samplespaths_ = samplespaths_.replace("phedexrw", "phedex").replace("cienciasrw", "ciencias")
 
     nth_       = "" if nthreads == 0 else ("--split-factor=-1 -j " + str(nthreads))
@@ -116,6 +118,7 @@ def CardsCommand(prod, year, var, isAsimov, nthreads, outpath, region, noUnc, us
                                mcafile   = mcafile_,
                                cutsfile  = cutsfile_,
                                uncs      = "" if (region == "particle" or region == "detectorparticleResponseSquare") else "--unc twttbar-run2UL/differential/uncs/uncs-twttbar.txt --amc" if not noUnc and "Response" in region else "--unc twttbar-run2UL/differential/uncs/uncs-twttbar.txt --amc" if not noUnc else "--amc",
+                               #uncs      = "" if (region == "particle" or region == "detectorparticleResponseSquare") else f"--unc twttbar-run2UL/differential/uncs/uncs-twttbar_{variable}.txt --amc" if not noUnc and "Response" in region else f"--unc twttbar-run2UL/differential/uncs/uncs-twttbar_{variable}.txt --amc" if not noUnc else "--amc",
                                name      = name_,
                                weights   = weights_,
                                extra     = extra_)
@@ -158,6 +161,7 @@ if __name__=="__main__":
 
     theregs  = ["detector", "particle", "detectorparticleResponse", "detectorparticlebutdetector",
                 "detectorparticle", "nonfiducial", "forExtr", "detectorparticleResponseSquare"]
+    
 
     thevars  = vl.varList["Names"]["Variables"]
     theyears = ["2016", "2016apv", "2017", "2018", "run2"]

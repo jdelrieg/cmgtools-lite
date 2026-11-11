@@ -132,8 +132,8 @@ class DataContainer:
                     continue
                 bkgdicttopropagate[tmpproc][tmpunc]= deepcopy(tfile.Get(tmpnam).Clone(tmpproc + "_" + tmpunc))
         
-        self.bkgsNoSub["tw_bkg"] = deepcopy(self.bkgs[""].Clone("tw_bkg"))
-        bkgdicttopropagate["tw_bkg"] = self.bkgs
+        #self.bkgsNoSub["tw_bkg"] = deepcopy(self.bkgs[""].Clone("tw_bkg"))
+        #bkgdicttopropagate["tw_bkg"] = self.bkgs
         for ibkg in bkgdicttopropagate:
             bkg_witherrors = ep.propagateHisto(bkgdicttopropagate[ibkg], vl.doSym)
             for ibin in range(1, self.bkgsNoSub[ibkg].GetNbinsX() + 1):
@@ -926,7 +926,7 @@ class Unfolder():
         twttbaramc_ds_runningBW    = vl.giveMeOneComparison(tmptfile, "twttbaramc_ds_runningBW",    scaleval, self.var, part = True)
         #twttbaramc_ds_is           = vl.giveMeOneComparison(tmptfile, "twttbaramc_ds_is",           scaleval, self.var, part = True)
         #twttbaramc_ds_is_runningBW = vl.giveMeOneComparison(tmptfile, "twttbaramc_ds_is_runningBW", scaleval, self.var, part = True)
-        bb4lv1                      = vl.giveMeOneComparison(tmptfile, "bb4lv1", scaleval, self.var, part = True)
+        #bb4lv1                      = vl.giveMeOneComparison(tmptfile, "bb4lv1", scaleval, self.var, part = True)
 
         tmptfile.Close()
 

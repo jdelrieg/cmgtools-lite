@@ -1,0 +1,1 @@
+btagsf_deepjet_B : abs(EffSFJetB_Eta)\:min(EffSFJetB_Pt,999.)\:EffSFJetB_deepjetSF : [20,30,40,50,75,100,200,500,1000]*[0.,0.4,0.8,1.2,1.6,2.0,2.4] ; IncludeUnderflow=False, Profile2D=True

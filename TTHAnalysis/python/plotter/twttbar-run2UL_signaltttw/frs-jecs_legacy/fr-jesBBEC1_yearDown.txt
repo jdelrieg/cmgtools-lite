@@ -1,0 +1,60 @@
+change: \bbTagWeight\b:                  bTagWeight_jesBBEC1_yearDown
+change: \bjetPUidWeight\b:               jetPUidWeight_jesBBEC1_yearDown
+
+change: \[iJetSel30_Recl\[:              [iJetSel30_jesBBEC1_yearDown_Recl[
+change: \bnJetSel30_Recl\b:              nJetSel30_jesBBEC1_yearDown_Recl
+change: \bnBJetSelMedium30_Recl\b:       nBJetSelMedium30_jesBBEC1_yearDown_Recl
+change: \[iJetSel20_Recl\[:              [iJetSel20_jesBBEC1_yearDown_Recl[
+change: \bnJetSel20_Recl\b:              nJetSel20_jesBBEC1_yearDown_Recl
+change: \bnBJetSelMedium20_Recl\b:       nBJetSelMedium20_jesBBEC1_yearDown_Recl
+change: \[iFwdJetSel30_Recl\[:           [iFwdJetSel30_jesBBEC1_yearDown_Recl[
+change: \bnFwdJetSel30_Recl\b:           nFwdJetSel30_jesBBEC1_yearDown_Recl
+change: \[iFwdJetSel20_Recl\[:           [iFwdJetSel20_jesBBEC1_yearDown_Recl[
+change: \bnFwdJetSel20_Recl\b:           nFwdJetSel20_jesBBEC1_yearDown_Recl
+change: \bMET_T1_pt\b:                  MET_T1_pt_jesBBEC1_yearDown
+
+change: \bLep1Lep2Jet1_Pz\b:          Lep1Lep2Jet1_Pz_jesBBEC1_yearDown
+change: \bLep1Lep2Jet1MET_Pt\b:          Lep1Lep2Jet1MET_Pt_jesBBEC1_yearDown
+change: \bLep1Lep2Jet1MET_M\b:           Lep1Lep2Jet1MET_M_jesBBEC1_yearDown
+change: \bLep1Lep2Jet1MET_Mt\b:          Lep1Lep2Jet1MET_Mt_jesBBEC1_yearDown
+change: \bLep1Lep2Jet1MET_PtOverHTtot\b: Lep1Lep2Jet1MET_PtOverHTtot_jesBBEC1_yearDown
+change: \bLep1_PtLep2_PtOverHTtot\b:     Lep1_PtLep2_PtOverHTtot_jesBBEC1_yearDown
+change: \bLep1Lep2Jet1_Pt\b:             Lep1Lep2Jet1_Pt_jesBBEC1_yearDown
+change: \bLep1Lep2Jet1_M\b:              Lep1Lep2Jet1_M_jesBBEC1_yearDown
+change: \bLep1Lep2Jet1_E\b:              Lep1Lep2Jet1_E_jesBBEC1_yearDown
+change: \bLep1Jet1_Pt\b:                 Lep1Jet1_Pt_jesBBEC1_yearDown
+change: \bLep1Jet1_M\b:                  Lep1Jet1_M_jesBBEC1_yearDown
+change: \bLep2Jet1_Pt\b:                 Lep2Jet1_Pt_jesBBEC1_yearDown
+change: \bLep2Jet1_M\b:                  Lep2Jet1_M_jesBBEC1_yearDown
+change: \bJet1_E\b:                      Jet1_E_jesBBEC1_yearDown
+change: \bJet_pt_nom\b:                  Jet_pt_jesBBEC1_yearDown
+change: \bJet_mass_nom\b:                Jet_mass_jesBBEC1_yearDown
+change: \bJet1_Pt\b:                     Jet1_Pt_jesBBEC1_yearDown
+change: \bJet2_Pt\b:                     Jet2_Pt_jesBBEC1_yearDown
+change: \bJetLoose1_Pt\b:                JetLoose1_Pt_jesBBEC1_yearDown
+change: \bLep1Jet1_DR\b:                 Lep1Jet1_DR_jesBBEC1_yearDown
+change: \bLep12Jet12_DR\b:               Lep12Jet12_DR_jesBBEC1_yearDown
+change: \bLep12Jet12MET_DR\b:            Lep12Jet12MET_DR_jesBBEC1_yearDown
+change: \bLepJet11Lep2_DR\b:             LepJet11Lep2_DR_jesBBEC1_yearDown
+change: \bLepJet11Lep2_DPhi\b:           LepJet11Lep2_DPhi_jesBBEC1_yearDown
+change: \bLepJet11Lep2_DEta\b:           LepJet11Lep2_DEta_jesBBEC1_yearDown
+change: \bLep1LepJet21_DR\b:             Lep1LepJet21_DR_jesBBEC1_yearDown
+change: \bLep1LepJet21_DPhi\b:           Lep1LepJet21_DPhi_jesBBEC1_yearDown
+change: \bLep1LepJet21_DEta\b:           Lep1LepJet21_DEta_jesBBEC1_yearDown
+change: \bLep1Lep2Jet1_C\b:              Lep1Lep2Jet1_C_jesBBEC1_yearDown
+change: \bHTtot\b:                       HTtot_jesBBEC1_yearDown
+change: \bminimax\b:                     minimax_jesBBEC1_yearDown
+change: \bLep1Jet2_M\b:                  Lep1Jet2_M_jesBBEC1_yearDown
+change: \bLep2Jet2_M\b:                  Lep2Jet2_M_jesBBEC1_yearDown
+change: \bLep1Jet1_DPhi\b:               Lep1Jet1_DPhi_jesBBEC1_yearDown
+change: \bLep2Jet1_DPhi\b:               Lep2Jet1_DPhi_jesBBEC1_yearDown
+change: \bcosThetaStar1\b:               cosThetaStar1_jesBBEC1_yearDown
+change: \bcosThetaStar2\b:               cosThetaStar2_jesBBEC1_yearDown
+change: \bMET_T1_phi\b:                 MET_T1_phi_jesBBEC1_yearDown
+change: \bSergioBDT_1j1b\b:              SergioBDT_1j1b_jesBBEC1_yearDown
+change: \bSergioBDT_2j1b\b:              SergioBDT_2j1b_jesBBEC1_yearDown
+change: \btmvaBDT_1j1b\b:                tmvaBDT_1j1b_jesBBEC1_yearDown
+change: \btmvaBDT_2j1b\b:                tmvaBDT_2j1b_jesBBEC1_yearDown
+
+
+weight: 1

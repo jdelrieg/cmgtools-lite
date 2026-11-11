@@ -12,6 +12,11 @@ change: \bSergioBDT_1j1b\b:              SergioBDT_1j1b_unclustEnUp
 change: \bSergioBDT_2j1b\b:              SergioBDT_2j1b_unclustEnUp
 change: \btmvaBDT_1j1b\b:                tmvaBDT_1j1b_unclustEnUp
 change: \btmvaBDT_2j1b\b:                tmvaBDT_2j1b_unclustEnUp
+change: \bLep1Lep2BJet1BJet2MET_Mt\b:                Lep1Lep2BJet1BJet2MET_Mt_unclustEnUp
+change: \bLep1Lep2BJet1BJet2MET_Pt\b:                Lep1Lep2BJet1BJet2MET_Pt_unclustEnUp
+change: \bLep1Lep2BJet1BJet2_M\b:                Lep1Lep2BJet1BJet2_M_unclustEnUp
+change: \bLep1Lep2BJet1BJet2_Pt\b:                Lep1Lep2BJet1BJet2_Pt_unclustEnUp
+change: \bBJet1BJet2_Pt\b:                BJet1BJet2_Pt_unclustEnUp
 
 
 weight: 1

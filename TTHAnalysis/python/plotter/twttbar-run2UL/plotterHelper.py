@@ -8,7 +8,9 @@ r.PyConfig.IgnoreCommandLineOptions = True
 r.gROOT.SetBatch(True)
 
 #### Settings
-friendspath  = "/lustrefs/hdd_pool_dir/nanoAODv9/bb4l/productions"
+friendspath  = "/lustrefs/analysis/nanoAODv9/bb4l/productions"
+#friendspath= "/pool/phedex/userstorage/jriego/nanoAODv9/bb4l/productions" #This path has to be updated when moving to lustre
+
 datasamples  = ["SingleMuon", "SingleElec", "DoubleMuon", "DoubleEG", "MuonEG", "LowEGJet", "HighEGJet", "EGamma"]
 
 #mcpath       = "/beegfs/data/nanoAODv9/"
@@ -17,11 +19,15 @@ datapath     = mcpath
 
 logpath      = friendspath + "/{p}/{y}/logs/plots"
 
-#friendsscaff = "--FMCs {P}/0_jecs --Fs {P}/1_lepsuncsAndParticle --Fs {P}/2_cleaning --Fs {P}/3_varstrigger --FMCs {P}/4_scalefactors"
-friendsscaff = "--FMCs {P}/0_jecs --Fs {P}/1_lepsuncsAndParticle --Fs {P}/2_cleaning --Fs {P}/3_varstrigger --FMCs {P}/4_scalefactors --FMCs {P}/5_isHF"
+friendsscaff = "--FMCs {P}/0_jecs --Fs {P}/1_lepsuncsAndParticle --Fs {P}/2_cleaning --Fs {P}/3_varstrigger --FMCs {P}/4_scalefactors"
+#friendsscaff = "--FMCs {P}/0_jecs --Fs {P}/1_lepsuncsAndParticle --Fs {P}/2_cleaning --Fs {P}/3_varstrigger --FMCs {P}/4_scalefactors --FMCs {P}/5_isHF"
 
-commandscaff = "python3 mcPlots.py --tree NanoAOD --pdir {outpath} {friends} {samplespaths} -f -l {lumi} {nth} --year {year} {ratio} --showRatio --fixRatioRange --legendColumns 1 --legendWidth 0.15  --legendFontSize 0.05616 --noCms --topSpamSize 1.1 --addSpamSize 1.2 --lspam '#splitline{{#scale[1.2]{{#bf{{CMS}}}}}}{{#scale[1.0]{{#it{{Preliminary}}}}}}' --neg --showMCError -W 'MuonIDSF * MuonISOSF * ElecIDSF * ElecRECOSF * TrigSF * puWeight * bTagWeight * L1PreFiringWeight_Nom * jetPUidWeight' -L twttbar-run2UL/functions_twttbar.cc {selplot} {mcafile} {cutsfile} {plotsfile} {extra} --AP --noStatTotLegendOnRatio --addspam '{nameregion}' --lspamPosition 0.21 .835 .35 .875 --TotalUncRatioStyle 3444 0 --noStatUncOnRatio --YTitleOffset 1.8 1.8 --CanvasSize 600 450 --TotalUncRatioColor 922 922 --addspamPosition .365 .845 .55 .885 --transparentLegend --PrincipalPadDimensions 0.00 0.25 1.00 1.00 --RatioPadDimensions 0.00 0.00 1.00 0.25 --LeftRightMargins 0.16 0.03 --ratioYLabel 'Data / Pred.     ' --labelsSize 24 --axisTitleSize 26 --labelsFont 43 --BottomMarginRatio 0.42 --XTitleOffsetRatio 1.0 --noXErrData --printBin 'bin' --printBinUnity --noExpoShift --no-elist --maxDigitsYaxis 4 --UncLegendName Uncertainty --ratioLinePersonalization 2 1 1 --lspamShiftLegend --noAddspamShift --ratioYNDiv 503 --histoLineWidth 0 --removeMarkerUncertainty --centerRatioYTitle --perBin" #--ratioYNDiv 210 --NotDrawRatioLine
 
+#WITH PRELIMINARY
+commandscaff = "python3 mcPlots.py --tree NanoAOD --pdir {outpath} {friends} {samplespaths} -f -l {lumi} {nth} --year {year} {ratio}  --showRatio --fixRatioRange --legendColumns 1 --legendWidth 0.15  --legendFontSize 0.05616 --noCms --topSpamSize 1.1 --addSpamSize 1.2 --lspam '#splitline{{#scale[1.2]{{#bf{{CMS}}}}}}{{#scale[1.0]{{#it{{Preliminary}}}}}}' --neg --showMCError -W 'MuonIDSF * MuonISOSF * ElecIDSF * ElecRECOSF * TrigSF * puWeight * bTagWeight * L1PreFiringWeight_Nom * jetPUidWeight' -L twttbar-run2UL/functions_twttbar.cc {selplot} {mcafile} {cutsfile} {plotsfile} {extra} --AP --noStatTotLegendOnRatio --addspam '{nameregion}' --lspamPosition 0.21 .835 .35 .875 --TotalUncRatioStyle 3444 0 --noStatUncOnRatio --YTitleOffset 1.8 1.8 --CanvasSize 600 450 --TotalUncRatioColor 922 922 --addspamPosition .365 .845 .55 .885 --transparentLegend --PrincipalPadDimensions 0.00 0.25 1.00 1.00 --RatioPadDimensions 0.00 0.00 1.00 0.25 --LeftRightMargins 0.16 0.03 --ratioYLabel 'Data / Pred.     ' --labelsSize 24 --axisTitleSize 26 --labelsFont 43 --BottomMarginRatio 0.42 --XTitleOffsetRatio 1.0 --noXErrData --printBin 'bin' --printBinUnity --noExpoShift --no-elist --maxDigitsYaxis 4 --UncLegendName Uncertainty --ratioLinePersonalization 2 1 1 --lspamShiftLegend --noAddspamShift --ratioYNDiv 503 --histoLineWidth 0 --removeMarkerUncertainty --centerRatioYTitle --perBin " #--ratioYNDiv 210 --NotDrawRatioLine
+																																	#--asimov
+                                                                                                                                                           #ESTE DE ABAJO ES EL DE NO-PRELIMIANRY                                                                                                                  
+#commandscaff = "python3 mcPlots.py --tree NanoAOD --pdir {outpath} {friends} {samplespaths} -f -l {lumi} {nth} --year {year} {ratio}  --showRatio --fixRatioRange --legendColumns 1 --legendWidth 0.15  --legendFontSize 0.05616 --noCms --topSpamSize 1.1 --addSpamSize 1.2 --lspam '#scale[1.2]{{#bf{{CMS}}}}' --neg --showMCError -W 'MuonIDSF * MuonISOSF * ElecIDSF * ElecRECOSF * TrigSF * puWeight * bTagWeight * L1PreFiringWeight_Nom * jetPUidWeight' -L twttbar-run2UL/functions_twttbar.cc {selplot} {mcafile} {cutsfile} {plotsfile} {extra} --AP --noStatTotLegendOnRatio --addspam '{nameregion}' --lspamPosition 0.21 .835 .35 .875 --TotalUncRatioStyle 3444 0 --noStatUncOnRatio --YTitleOffset 1.8 1.8 --CanvasSize 600 450 --TotalUncRatioColor 922 922 --addspamPosition .365 .845 .55 .885 --transparentLegend --PrincipalPadDimensions 0.00 0.25 1.00 1.00 --RatioPadDimensions 0.00 0.00 1.00 0.25 --LeftRightMargins 0.16 0.03 --ratioYLabel 'Data / Pred.     ' --labelsSize 24 --axisTitleSize 26 --labelsFont 43 --BottomMarginRatio 0.42 --XTitleOffsetRatio 1.0 --noXErrData --printBin 'bin' --printBinUnity --noExpoShift --no-elist --maxDigitsYaxis 4 --UncLegendName Uncertainty --ratioLinePersonalization 2 1 1 --lspamShiftLegend --noAddspamShift --ratioYNDiv 503 --histoLineWidth 0 --removeMarkerUncertainty --centerRatioYTitle --perBin " #--ratioYNDiv 210 --NotDrawRatioLine                                                                                                                                                                                                                                                                             
 #### GENERACION
 #commandscaff = "python3 mcPlots.py --tree NanoAOD --pdir {outpath} {friends} {samplespaths} -f -l {lumi} {nth} --year {year} {ratio} --showRatio --fixRatioRange --legendColumns 1 --legendWidth 0.07 --legendFontSize 0.039 --noCms --topSpamSize 1.1 --lspam '#splitline{{#scale[1.1]{{#bf{{CMS}}}}}}{{#scale[0.9]{{#it{{Preliminary}}}}}}' --neg --showMCError -L twttbar-run2UL/functions_twttbar.cc {selplot} {mcafile} {cutsfile} {plotsfile} {extra} --AP --noStatTotLegendOnRatio --addspam '{nameregion}' --lspamPosition 0.21 .845 .35 .885 --TotalUncRatioStyle 3244 0 --noStatUncOnRatio --YTitleOffset 2.1 2.1 --CanvasSize 600 450 --TotalUncRatioColor 920 920 --addspamPosition .41 .855 .6 .895 --transparentLegend --PrincipalPadDimensions 0.00 0.25 1.00 1.00 --RatioPadDimensions 0.00 0.00 1.00 0.25 --LeftRightMargins 0.16 0.03 --ratioYLabel 'Data/MC' --labelsSize 22 --labelsFont 43 --BottomMarginRatio 0.42 --XTitleOffsetRatio 1.0 --noXErrData --printBin 'bin' --printBinUnity --noExpoShift --no-elist" #--ratioYNDiv 210 --NotDrawRatioLine
 
@@ -29,18 +35,19 @@ commandscaff = "python3 mcPlots.py --tree NanoAOD --pdir {outpath} {friends} {sa
 commandblindscaff = "python3 mcPlots.py --tree NanoAOD --pdir {outpath} {friends} {samplespaths} -f -l {lumi} {nth} --year {year} {ratio} --showRatio --fixRatioRange --legendColumns 1 --legendWidth 0.07 --legendFontSize 0.032 --noCms --topSpamSize 1.1 --lspam '#splitline{{#scale[1.1]{{#bf{{CMS}}}}}}{{#scale[0.9]{{#it{{Preliminary}}}}}}' --neg --showMCError -W 'MuonIDSF * MuonISOSF * ElecIDSF * ElecRECOSF * TrigSF * puWeight * bTagWeight * L1PreFiringWeight_Nom' -L twttbar-run2UL/functions_twttbar.cc {selplot} {mcafile} {cutsfile} {plotsfile} {extra} --AP --noStatTotLegendOnRatio --addspam '{nameregion}' --lspamPosition 0.21 .845 .35 .885 --TotalUncRatioStyle 3244 0 --noStatUncOnRatio --YTitleOffset 2.1 2.1 --TotalUncRatioColor 920 920 --addspamPosition .41 .855 .6 .895 --transparentLegend --LeftRightMargins 0.16 0.03  --labelsSize 22 --labelsFont 43 --BottomMarginRatio 0.42 --XTitleOffsetRatio 1.0 --noXErrData --printBin 'bin' --printBinUnity --noExpoShift --no-elist" #--ratioYNDiv 210 --NotDrawRatioLine
 
 
-slurmscaff   = 'sbatch {extraS} -c {nth} -p {queue} -J {jobname} -e {logpath}/log.%j.%x.err -o {logpath}/log.%j.%x.out --wrap "{command}"'
+slurmscaff   = 'sbatch {extraS} -c {nth} -p {queue} -J {jobname} -e {logpath}/log.%j.%x.err  -o {logpath}/log.%j.%x.out --wrap "{command}"'
 lumidict     = {"2016apv": 19.52,
                 "2016"   : 16.81,
                 "2017"   : 41.48,
-                "2018"   : 59.83}
+                "2018"   : 59.83,
+                "2000"   : 16.81}
 
 
 def GeneralExecutioner(task):
     prod, year, nthreads, outpath, selplot, region, ratiorange, queue, extra, pretend, useFibre, doUncs, doBlind, extraslurm, doComp = task
 
-    if not os.path.isdir(outpath + "/" + str(year)) and not pretend:
-        os.system("mkdir -p " + outpath + "/" + str(year))
+    if not os.path.isdir(outpath + "/" + str(year)+"/mergedFiles") and not pretend:
+        os.system("mkdir -p " + outpath + "/" + str(year)+"/mergedFiles")
 
     if queue != "":
         if not os.path.isdir(logpath.format(y = year, p = prod)) and not pretend:
@@ -66,10 +73,20 @@ def GeneralExecutioner(task):
 
 def PlottingCommand(prod, year, nthreads, outpath, selplot, region, ratio, extra, useFibre, doUncs, doBlind, doComp):
     mcafile_    = "twttbar-run2UL/mca-twttbar/mca-twttbar-compbb4l.txt" if not doComp else "twttbar-run2UL/mca-twttbar/mca-twttbar-compbb4l.txt"
-    cutsfile_   = "twttbar-run2UL/cuts-twttbar/cuts-twttbar-{reg}.txt".format(reg = region if ("_" not in region) else region.split("_")[0] if ("differential" not in region and "cut" not in region) else region)
+    #cutsfile_   = "twttbar-run2UL/cuts-twttbar/cuts-twttbar-{reg}.txt".format(reg = region if ("_" not in region) else region.split("_")[0] if ("differential" not in region and "cut" not in region) else region)
+    
+    _full = "twttbar-run2UL/cuts-twttbar/cuts-twttbar-{}.txt".format(region)
+    if "_" not in region or "differential" in region or "cut" in region or os.path.exists(_full):reg_ = region
+    else: reg_ = region.split("_")[0]
+    cutsfile_ = "twttbar-run2UL/cuts-twttbar/cuts-twttbar-{reg}.txt".format(reg = reg_)    
+    
     plotsfile_  = "twttbar-run2UL/plots-twttbar/plots-twttbar-{reg}.txt".format(reg = region.replace("SF", "").replace("-ee", "").replace("-mm", ""))
 
-    samplespaths_ = "-P " + friendspath + "/" + prod + ("/" + year) * (year != "run2")
+    
+    if year=="run2": samplespaths_ = "-P " + friendspath + "/" + prod + ("/" + year) * (year != "run2") #+ "/mergedFiles"
+                                                                                      #esto de +mergedfiles habria que quitarlo cuando se haga el cambio a lustre, porque alli no hay mergedFiles, sino que los files estan directamente en el path de cada año. De hecho, lo mismo para mcpath y datapath, que ahora mismo tienen el mismo formato pero luego no lo tendran
+    if year != "run2": samplespaths_ = "-P " + friendspath + "/" + prod + ("/" + year) * (year != "run2") + "/mergedFiles"
+    
     if useFibre: samplespaths_ = samplespaths_.replace("phedexrw", "phedex").replace("cienciasrw", "ciencias")
 
     nth_        = "" if nthreads == 0 else ("--split-factor=-1 -j " + str(nthreads))
@@ -87,13 +104,15 @@ def PlottingCommand(prod, year, nthreads, outpath, selplot, region, ratio, extra
         nameregion_ = extraBlankSpaces + "    e^{#pm}#mu^{#mp}"
     if "_" not in region and "nojets" not in region:
         nameregion_ += " (" + region.replace("t", "b").replace("plus", "+") + ")"
+        if region == "geq2j2t": nameregion_="    e^{#pm}#mu^{#mp} (#geq2j2b)"
     elif "differential" in region and "nojets" not in region:
         #nameregion_ += " (" + region.split("_")[0].replace("t", "b").replace("plus", "+") + "+0j_{#scale[1.2]{#font[12]{l}}}" + ")"
         nameregion_ += " (" + region.split("_")[0].replace("t", "b").replace("plus", "+") + "+0j_{#scale[1.2]{l}}" + ")"
     elif "MVA" in region and "nojets" not in region:
         nameregion_ += " (" + region.split("_")[0].replace("t", "b").replace("plus", "+") + ")"
 
-    extra_  = extra + (" --compareWithSignalThis bb4l ") * doComp + (" --unc twttbar-run2UL/uncs-twttbar/uncs-twttbar.txt ") * doUncs
+    #extra_  = extra + (" --compareWithSignalThis bb4l ") * doComp + (" --unc twttbar-run2UL/uncs-twttbar/uncs-twttbar.txt ") * doUncs
+    extra_  = extra + (" --compareWithSignalThis ttbartw ") * doComp + (" --unc twttbar-run2UL/uncs-twttbar/uncs-twttbar.txt ") * doUncs
     #extra_  = extra + (" --unc twttbar-run2UL/uncs-twttbar/uncs-twttbar.txt ") * doUncs
     thecomm = commandscaff if not doBlind else commandblindscaff
     
@@ -137,8 +156,8 @@ if __name__=="__main__":
     parser.add_argument('--select-plot','--sP',action = "append",   dest = "selplot", required = False, default = [])
     parser.add_argument('--pretend',   '-p', action = "store_true", dest = "pretend", required = False, default = False)
     parser.add_argument('--outpath',   '-o', metavar = 'outpath',   dest = "outpath", required = False, default = "./temp/varplots")
-    parser.add_argument('--region',    '-r', metavar = 'region',    dest = "region",  required = False, default = "1j1t")
-    parser.add_argument('--maxRatioRange', "-R", metavar = 'ratiorange', dest = "ratiorange", required = False, default = "0.7 1.3")
+    parser.add_argument('--region',    '-r', metavar = 'region',    dest = "region",  required = False, default = "2j2t")
+    parser.add_argument('--maxRatioRange', "-R", metavar = 'ratiorange', dest = "ratiorange", required = False, default = "0.8 1.2")#0.7 1.3
     parser.add_argument('--createSoftLinks', action = "store_true", dest = "createSL", required = False, default = False)
     parser.add_argument('--useFibre',  "-f", action = "store_true", dest = "useFibre", required = False, default = False)
     parser.add_argument('--uncertainties', "-u", action = "store_true", dest = "doUncs", required = False, default = False)
@@ -173,25 +192,25 @@ if __name__=="__main__":
         extra += " --scaleBkgSigToData ttbar --scaleBkgSigToData dy --scaleBkgSigToData nonworz --scaleBkgSigToData vvttv --scaleBkgSigToData tw"
 
     if createSL:
-        destdir = friendspath + "/" + prod + "/" + str(year)
+        destdir = friendspath + "/" + prod + "/" + str(year)+"/mergedFiles"
         SLcommscaff = "ln -s {realdataset} {symlink}"
 
         #### First, MC
         print("> Creating MC symbolic links...")
-        mcsampleslist = os.listdir(mcpath + "/" + str(year))
+        mcsampleslist = os.listdir(mcpath + "/" + str(year)+"/mergedFiles")
         for sam in mcsampleslist:
             if not os.path.islink(destdir + "/" + sam):
-                os.system(SLcommscaff.format(realdataset = mcpath + "/" + str(year) + "/" + sam,
+                os.system(SLcommscaff.format(realdataset = mcpath + "/" + str(year)+"/mergedFiles" + "/" + sam,
                                              symlink = destdir + "/" + sam))
         #sys.exit()
 
         #### Later, data
         print("> Creating data symbolic links...")
-        datasampleslist = os.listdir(datapath + "/" + str(year))
+        datasampleslist = os.listdir(datapath + "/" + str(year)+"/mergedFiles")
         for sam in datasampleslist:
             isData = any(ext in sam for ext in datasamples)
             if not os.path.islink(destdir + "/" + sam) and isData:
-                os.system(SLcommscaff.format(realdataset = datapath + "/" + str(year) + "/" + sam,
+                os.system(SLcommscaff.format(realdataset = datapath + "/" + str(year)+"/mergedFiles" + "/" + sam,
                                              symlink = destdir + "/" + sam))
 
         print("> Finished!")

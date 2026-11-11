@@ -1,0 +1,54 @@
+## WW
+# LO
+#vvttv : WW_TuneCP5_13TeV_pythia8*               : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+
+# NLO
+vvttv : WWTo2L2Nu_TuneCP5_13TeV_powheg_pythia8*             : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+vvttv : WWTo1L1Nu2Q_4f_TuneCP5_13TeV_amcatnloFXFX_pythia8*  : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+
+
+## WZ
+# LO
+#vvttv : WZ_TuneCP5_13TeV_pythia8* : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+
+# NLO
+vvttv : WZTo1L1Nu2Q_4f_TuneCP5_13TeV_amcatnloFXFX_pythia8*     : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+vvttv : WZTo2Q2L_mllmin4p0_TuneCP5_13TeV_amcatnloFXFX_pythia8* : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+vvttv : WZTo3LNu_TuneCP5_13TeV_amcatnloFXFX_pythia8*           : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+
+
+## ZZ
+# LO
+#vvttv : ZZ_TuneCP5_13TeV_pythia8*           : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+
+# NLO
+vvttv : ZZTo4L_TuneCP5_13TeV_powheg_pythia8*                   : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+vvttv : ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8*                : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+vvttv : ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV_amcatnloFXFX_pythia8* : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+
+
+## TTW
+vvttv : TTWJetsToLNu_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8*  : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+vvttv : ttWJetsToLNu_5f_EWK_TuneCP5_13TeV_amcatnlo_pythia8*       : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+vvttv : TTWJetsToQQ_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8*   : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+
+
+## TTZ
+vvttv : TTZToLL_M_1to10_TuneCP5_13TeV_amcatnlo_pythia8*  : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+vvttv : TTZToLLNuNu_M_10_TuneCP5_13TeV_amcatnlo_pythia8* : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+vvttv : TTZToQQ_TuneCP5_13TeV_amcatnlo_pythia8*          : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32) ### Unir
+#vvttv : TTZToQQ_Dilept_TuneCP5_13TeV_amcatnlo_pythia8*   : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32) ### Unir
+
+
+## TTGamma
+vvttv : TTGamma_Dilept_TuneCP5_13TeV_madgraph_pythia8*     : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+vvttv : TTGamma_SingleLept_TuneCP5_13TeV_madgraph_pythia8* : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+
+
+## VVV
+vvttv : WWW_4F_TuneCP5_13TeV_amcatnlo_pythia8* : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+vvttv : WZG_TuneCP5_13TeV_amcatnlo_pythia8*    : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+vvttv : WWG_TuneCP5_13TeV_amcatnlo_pythia8*    : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+vvttv : WWZ_4F_TuneCP5_13TeV_amcatnlo_pythia8* : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+vvttv : WZZ_TuneCP5_13TeV_amcatnlo_pythia8*    : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)
+vvttv : ZZZ_TuneCP5_13TeV_amcatnlo_pythia8*    : xsec ; FillColor=ROOT.TColor.GetColor(248\,156\,32)

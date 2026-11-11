@@ -22,4 +22,9 @@ incl_2017_data       : + ; years="2017",   IncludeMca="twttbar-run2UL/mca-twttba
 incl_2018_dy         : + ; years="2018",   IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2018-dy.txt",        Label="DY"           , genSumWeightName="genEventSumw"
 incl_2018_vvttv      : + ; years="2018",   IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2018-vvttv.txt",     Label="VV+t\\bar{t}V", genSumWeightName="genEventSumw"
 incl_2018_nonworz    : + ; years="2018",   IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2018-nonworz.txt",   Label="Non-W/Z"      , genSumWeightName="genEventSumw"
-incl_2018_data       : + ; years="2018",   IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2018-data.txt"
+incl_2018_data       : + ; years="2018",   IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2018-data.txt",
+
+incl_2016_uncs         : + ; years="2016",   IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2016-bb4l-uncs.txt"   , genSumWeightName="genEventSumw"
+incl_2016apv_uncs         : + ; years="2016apv",   IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2016apv-bb4l-uncs.txt"   , genSumWeightName="genEventSumw"
+incl_2017_uncs         : + ; years="2017",   IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2017-bb4l-uncs.txt"   , genSumWeightName="genEventSumw"
+incl_2018_uncs         : + ; years="2018",   IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2018-bb4l-uncs.txt"   , genSumWeightName="genEventSumw"

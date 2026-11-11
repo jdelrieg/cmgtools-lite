@@ -690,7 +690,7 @@ def drawTheRelUncPlot(listWithHistos, thedict, thePlot, yaxismax = "auto", doSym
 
 
 # For the differential with combine 
-def drawTheRelUncPlotv2(listWithHistos, thedict, thePlot, yaxismax = "auto", doSym = False):
+def drawTheRelUncPlotv2_beforeclaude(listWithHistos, thedict, thePlot, yaxismax = "auto", doSym = False):
     # Calculate the order
     subdict = deepcopy(thedict)
     del subdict["statUp"]; del subdict["statDown"]; del subdict["systUp"]; del subdict["systDown"]
@@ -783,5 +783,116 @@ def drawTheRelUncPlotv2(listWithHistos, thedict, thePlot, yaxismax = "auto", doS
             #print iS, uncList[iS][0]
             iS += 1
 
+
+    return (uncList, hincstat, hincsyst, hincmax)
+
+
+def _safeDiv(num, den):
+    """Division that never returns NaN/inf."""
+    return num / den if den != 0 else 0.
+
+
+def _cleanHisto(h):
+    """Replace non-finite bin contents by 0, zero the errors, and clear under/overflow."""
+    n = h.GetNbinsX()
+    for b in range(1, n + 1):
+        v = h.GetBinContent(b)
+        if not math.isfinite(v):
+            print("> WARNING: non-finite value in histogram {n}, bin {b}: set to 0".format(n = h.GetName(), b = b))
+            h.SetBinContent(b, 0.)
+        h.SetBinError(b, 0.)
+
+    # Underflow (bin 0) and overflow (bin n+1) are not part of the plot, but a bad value there can corrupt the drawing
+    for b in (0, n + 1):
+        if h.GetBinContent(b) != 0.:
+            print("> WARNING: histogram {n} has non-zero content {v} in bin {b}: set to 0".format(n = h.GetName(), v = h.GetBinContent(b), b = b))
+        h.SetBinContent(b, 0.)
+        h.SetBinError(b, 0.)
+
+
+def drawTheRelUncPlotv2(listWithHistos, thedict, thePlot, yaxismax = "auto", doSym = False):
+    # Calculate the order
+    subdict = deepcopy(thedict)
+    del subdict["statUp"]; del subdict["statDown"]; del subdict["systUp"]; del subdict["systDown"]
+    if "totalUp" in subdict:
+        del subdict["totalUp"]; del subdict["totalDown"]
+
+    uncList = getUncListv2(subdict, doSym)
+
+    # Sanitise the per-group histograms (e.g. NaN from sqrt of a slightly negative number)
+    for el in uncList:
+        _cleanHisto(el[1])
+
+    # Calculate the total uncertainty histogram and the total systematic one
+    maxinctot = 0.
+    hincmax   = deepcopy(thedict[""].Clone('hincmax'))
+    hincmax.SetLineColor(r.kBlack)
+    hincmax.SetLineWidth( 2 )
+    hincmax.SetFillStyle(0)
+
+    hincsyst  = deepcopy(thedict[""].Clone('hincsyst'))
+    hincsyst.SetLineColor(r.kBlack)
+    hincsyst.SetLineWidth( 2 )
+    hincsyst.SetLineStyle( 3 )
+    hincsyst.SetFillStyle(0)
+
+    hincstat = deepcopy(thedict[""].Clone('hincstat'))
+    hincstat.SetLineColor(r.kBlack)
+    hincstat.SetLineStyle( 2 )
+    hincstat.SetFillStyle(0)
+
+    for bin in range(1, listWithHistos[0].GetNbinsX() + 1):
+        hincmax.SetBinContent(bin, _safeDiv(max([listWithHistos[0].GetBinError(bin),
+                                                 listWithHistos[1].GetBinError(bin)]),
+                                            thedict[""].GetBinContent(bin)))
+
+        if (hincmax.GetBinContent(bin) > maxinctot): maxinctot = hincmax.GetBinContent(bin)
+
+        hincsyst.SetBinContent(bin, _safeDiv(max([thedict["systUp"].GetBinError(bin),
+                                                  thedict["systDown"].GetBinError(bin)]),
+                                             thedict["systUp"].GetBinContent(bin)))
+
+        hincstat.SetBinContent(bin, _safeDiv(max([thedict["statUp"].GetBinError(bin),
+                                                  thedict["statDown"].GetBinError(bin)]),
+                                             thedict["statUp"].GetBinContent(bin)))
+
+    for h in (hincmax, hincsyst, hincstat):
+        _cleanHisto(h)
+
+    # Set maximum of the y axis
+    if yaxismax == "auto":
+        if (maxinctot >= 0.9):
+            if maxinctot >= 5:
+                hincmax.GetYaxis().SetRangeUser(0, 5)
+            else:
+                hincmax.GetYaxis().SetRangeUser(0, maxinctot + 0.1)
+        else:
+            hincmax.GetYaxis().SetRangeUser(0, 0.9)
+    else:
+        hincmax.GetYaxis().SetRangeUser(0, yaxismax)
+
+    # Begin drawing; first the total, systematic and statistical lines
+    thePlot.addHisto(hincmax,  'hist',      'Total',      'L')
+    if not vl.onlyTotal:
+        thePlot.addHisto(hincsyst, 'hist,same', 'Systematic',  'L')
+        thePlot.addHisto(hincstat, 'hist,same', 'Statistical', 'L')
+
+        # And now, the rest of the lines are up to vl.nuncs of the most dominant systematic sources
+        iS = 0
+        plottedsysts = 0
+        maxnumofuncs = vl.nuncs
+
+        while plottedsysts < maxnumofuncs and plottedsysts < len(uncList):
+            if "lumi" in uncList[iS][0].lower():
+                uncList[iS][1].SetLineColor(r.kBlack)
+                uncList[iS][1].SetLineStyle( 4 )
+            else:
+                uncList[iS][1].SetLineColor( vl.UncGroupsColourMap[uncList[iS][0].lower()] )
+                uncList[iS][1].SetLineWidth( 2 )
+
+            uncList[iS][1].SetFillStyle(0)
+            thePlot.addHisto(uncList[iS][1], 'H,same', vl.SysNameTranslator[uncList[iS][0].lower()], 'L')
+            plottedsysts += 1
+            iS += 1
 
     return (uncList, hincstat, hincsyst, hincmax)

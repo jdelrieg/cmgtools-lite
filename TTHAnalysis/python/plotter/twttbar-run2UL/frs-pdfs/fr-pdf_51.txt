@@ -1,2 +1,4 @@
-weight : Alt$(LHEPdfWeight[51],1)
-alt-norm : Alt$(LHEPdfSumw[51]/LHEScaleSumw[4],1)
+# This number has been computed by properly normalizing to the fiducial cross section of the bb4l sample
+#weight : LHEPdfWeight[51]
+weight   : 1.0000356491736504
+# Individual bins [1.000024676322937, 1.0000499486923218, 1.0000431537628174, 1.0000522136688232, 1.000017762184143, 1.000047206878662, 1.0000193119049072, 1.0000311136245728]

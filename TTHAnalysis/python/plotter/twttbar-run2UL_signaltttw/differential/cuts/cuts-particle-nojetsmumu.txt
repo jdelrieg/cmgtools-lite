@@ -1,0 +1,7 @@
+alwaystrue : 1
+
+# PARTICLE
+
+dressemu    : Dresschannel == 2 
+dressdilep  : (nDressSelLep == 2) && (DressLep1_Pt > 25) && (DressLep2_Pt > 20) && DressisSS == 0 && (DressminMllAFAS > 20)
+dresszveto:     (abs(DressMll - 91.2) > 15)

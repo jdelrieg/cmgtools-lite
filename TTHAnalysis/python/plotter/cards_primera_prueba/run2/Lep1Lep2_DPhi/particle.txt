@@ -1,0 +1,12 @@
+## Datacard for cut file twttbar-run2UL/differential/cuts/cuts-particle-2j2t.txt
+shapes *        * particle.root x_$PROCESS x_$PROCESS_$SYSTEMATIC
+##----------------------------------
+bin         particle
+observation 5637881.095313948
+##----------------------------------
+##----------------------------------
+bin                              particle                     particle                     particle                     particle                     particle                     particle                     particle                     particle                     particle                     particle                     particle 
+process                              bb4l                    twttbardr                    twttbards                twttbarherwig                twttbaramc_dr               twttbaramc_dr2                twttbaramc_ds             twttbaramc_ds_is      twttbaramc_ds_runningBW   twttbaramc_ds_is_runningBW                       bb4lv1 
+process                                 0                            1                            2                            3                            4                            5                            6                            7                            8                            9                           10 
+rate                           522269.548                   494982.685                   494658.149                   486046.845                   529065.809                   519726.415                   527608.517                   525433.877                   524810.560                   513507.080                   499771.612 
+##----------------------------------

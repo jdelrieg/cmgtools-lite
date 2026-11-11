@@ -399,8 +399,8 @@ if options.queue:
     if options.env == "psi":
         super  = "qsub -q {queue} -N friender".format(queue = options.queue)
         runner = "psibatch_runner.sh"
-    elif options.env == "oviedo": # --exclude=gae033,gae034
-        super  = "sbatch -p {queue} -J {name} -e {logpath}/log.%j.%x.err -o {logpath}/log.%j.%x.out".format(queue = options.queue,
+    elif options.env == "oviedo":  #--exclude=gae035,gae034,gae036
+        super  = "sbatch -p {queue} -J {name} --exclude=gae034,gae036  -e {logpath}/log.%j.%x.err -o {logpath}/log.%j.%x.out".format(queue = options.queue,
                                                                                                             name = options.name,
                                                                                                             logpath = options.logdir if options.logdir else "./")
         #super  = "qsub -q {queue} -N {name} -e {logpath}/log.%j.%J.err -o {logpath}/log.%j.%J.out".format(queue = options.queue,

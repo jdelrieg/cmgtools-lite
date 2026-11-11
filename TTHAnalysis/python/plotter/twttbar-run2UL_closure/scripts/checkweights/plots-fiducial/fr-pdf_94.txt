@@ -1,0 +1,4 @@
+# This number has been computed by properly normalizing to the fiducial cross section of the bb4l sample
+#weight : LHEPdfWeight[94]
+weight   : 0.9999973774780858
+# Individual bins [0.9999939203262329, 0.9999812841415405, 1.0000128746032715, 0.9999978542327881, 0.9999997615814209, 1.0000001192092896, 0.9999932050704956, 1.0]

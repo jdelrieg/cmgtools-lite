@@ -1,0 +1,3 @@
+# This number has been computed by properly normalizing to the fiducial cross section of the bb4l sample
+weight : LHEScaleSumw[8]
+alt-norm   : 1.000070861477056

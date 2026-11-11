@@ -1,0 +1,3 @@
+#weight : Alt$(LHEPdfWeight[8],1)
+#alt-norm : Alt$(LHEPdfSumw[8]/LHEScaleSumw[4],1)
+weight   : 1.0000893716514252

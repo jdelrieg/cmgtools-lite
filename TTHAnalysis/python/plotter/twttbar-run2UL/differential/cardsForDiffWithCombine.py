@@ -11,12 +11,13 @@ import varList as vl
 r.gROOT.SetBatch(True)
 vl.SetUpWarnings()
 
-friendspath   = "/lustrefs/hdd_pool_dir/nanoAODv9/bb4l/productions"
+#friendspath   = "/lustrefs/hdd_pool_dir/nanoAODv9/bb4l/productions"
+friendspath   = "/lustrefs/analysis/nanoAODv9/bb4l/productions"
 logpath       = friendspath + "/{p}/{y}/logs/cards_differential"
 friendsscaff = "--FMCs {P}/0_jecs --Fs {P}/1_lepsuncsAndParticle --Fs {P}/2_cleaning --Fs {P}/3_varstrigger --FMCs {P}/4_scalefactors"
 
-slurmscaff    = "sbatch -c {nth} -p {queue} -J {jobname} -e {logpath}/log.%j.%x.err -o {logpath}/log.%j.%x.out --wrap '{command}'"
-
+slurmscaff    = "sbatch   -c {nth}   -p {queue} -J {jobname} -e {logpath}/log.%j.%x.err -o {logpath}/log.%j.%x.out --wrap '{command}'"
+                                   #--exclude gae035
 commandscaff  = '''python3 makeShapeCards_TopRun2.py --tree NanoAOD {mcafile} {cutsfile} "{variable}" "{bins}" {samplespaths} {friends} --od {outpath} -l {lumi} {nth} -f -L {func} --neg -W "{w}" --year {year} {asimovornot} {uncs} {extra} {name} --AP --storeAll --notVarsChanges --threshold 0.001'''
 
 theweights    = 'MuonIDSF * MuonISOSF * ElecIDSF * ElecRECOSF * TrigSF * puWeight * bTagWeight * L1PreFiringWeight_Nom * jetPUidWeight'
@@ -38,11 +39,10 @@ def PythonListToString(theL):
     ret += "]"
     return ret
 
-
 def ExecuteOrSubmitTask(tsk):
-    prod, year, variable, asimov, nthreads, outpath, noUnc, useFibre, extra, pretend, queue = tsk
+    prod, year, variable, asimov, nthreads, outpath, noUnc, useFibre, extra, pretend, queue, njnt = tsk
     if queue == "":
-        thecomm = CardsCommand(prod, year, variable, asimov, nthreads, outpath, noUnc, useFibre, extra)
+        thecomm = CardsCommand(prod, year, variable, asimov, nthreads, outpath, noUnc, useFibre, extra, njnt)
         print("Command: " + thecomm)
 
         if not pretend:
@@ -56,7 +56,7 @@ def ExecuteOrSubmitTask(tsk):
                                     queue   = queue,
                                     jobname = "CMGTcardsForDiff_" + variable + "_" + year,
                                     logpath = logpath.format(p = prod, y = yr),
-                                    command = CardsCommand(prod, year, variable, asimov, nthreads, outpath, noUnc, useFibre, extra))
+                                    command = CardsCommand(prod, year, variable, asimov, nthreads, outpath, noUnc, useFibre, extra, njnt))
 
         print("Command: " + thecomm)
         if not pretend:
@@ -65,12 +65,12 @@ def ExecuteOrSubmitTask(tsk):
     return
 
 
-def produceAdHocMCAandUncsfiles(thepath, they, thev):
+def produceAdHocMCAandUncsfiles(thepath, they, thev,njnt):
     outmain = ""
     with open("./twttbar-run2UL/differential/mca/mca_scaffold.txt", "r") as scaff:
         for line in scaff:
             if "TOREPLACE" in line:
-                outmain += line.replace("TOREPLACEAPV2016", thepath + "/mca-bb4l-2016apv.txt").replace("TOREPLACE2016", thepath + "/mca-bb4l-2016.txt").replace("TOREPLACE2017", thepath + "/mca-bb4l-2017.txt").replace("TOREPLACE2018", thepath + "/mca-bb4l-2018.txt").replace("TOREPLACESYS2016", thepath + "/mca-bb4l-2016-uncs.txt").replace("TOREPLACESYS2017", thepath + "/mca-bb4l-2017-uncs.txt").replace("TOREPLACESYS2018", thepath + "/mca-bb4l-2018-uncs.txt")
+                outmain += line.replace("TOREPLACEAPV2016", thepath + "/mca-bb4l-2016apv.txt").replace("TOREPLACE2016", thepath + "/mca-bb4l-2016.txt").replace("TOREPLACE2017", thepath + "/mca-bb4l-2017.txt").replace("TOREPLACE2018", thepath + "/mca-bb4l-2018.txt").replace("TOREPLACEAPVSYS2016", thepath + "/mca-bb4l-2016apv-uncs.txt").replace("TOREPLACESYS2016", thepath + "/mca-bb4l-2016-uncs.txt").replace("TOREPLACESYS2017", thepath + "/mca-bb4l-2017-uncs.txt").replace("TOREPLACESYS2018", thepath + "/mca-bb4l-2018-uncs.txt")
             else:
                 outmain += line
 
@@ -78,7 +78,9 @@ def produceAdHocMCAandUncsfiles(thepath, they, thev):
     foutmain.write(outmain)
     foutmain.close(); del foutmain
 
-    cutstring = "(Dresschannel == 1) && (nDressSelLep == 2) && (DressLep1_Pt > 25) && (DressLep2_Pt > 20) && (DressisSS == 0) && (DressminMllAFAS > 20) && (nDressSelJet == 2) && (nDressBSelJet == 2)"
+    cutsfile_  = "./twttbar-run2UL/differential/cuts/cuts-particle-{njetsnbtags}.txt".format(njetsnbtags=njnt)
+    cutstring = " && ".join(f"({l.split(':',1)[1].strip()})" for l in open(cutsfile_) if ':' in l and not l.strip().startswith('#') and l.split(':',1)[1].strip() != "1")
+    #cutstring = "(Dresschannel == 1) && (nDressSelLep == 2) && (DressLep1_Pt > 25) && (DressLep2_Pt > 20) && (DressisSS == 0) && (DressminMllAFAS > 20) && (nDressSelJet == 2) && (nDressBSelJet == 2)"
     pathtooriginalmca = "./twttbar-run2UL/differential/mca/"
     if they == "run2":
         for iY in ["2016apv", "2016", "2017", "2018"]:
@@ -92,7 +94,7 @@ def produceAdHocMCAandUncsfiles(thepath, they, thev):
                     for iB in range(len(vl.varList[thev]["bins_particle"]) - 1):
                         tmpcut = "(" + str(vl.varList[thev]["bins_particle"][iB]) + "<=" + vl.varList[thev]["var_particle"] + ") && (" + vl.varList[thev]["var_particle"] + "<" + str(vl.varList[thev]["bins_particle"][iB + 1]) + ")"
                         if "Origchannel" not in tmpline:
-                            outyear += tmpline.replace(";", ": " + cutstring + " && " + tmpcut + " ;").replace("bb4l+", "bb4l_partbin{b}+".format(b = iB)).replace("FillColor=798", "FillColor=" + str(vl.coloursForDiffWithCombine[iB + 1]) + ",Label='bb4l bin {b}'".format(b = iB + 1)) + "\n"
+                            outyear += tmpline.replace(";", ": " + cutstring + " && " + tmpcut + " ;").replace("bb4l+", "bb4l_partbin{b}+".format(b = iB)).replace("FillColor=798", "FillColor=" + str(vl.coloursForDiffWithCombine[iB+1-1]) + ",Label='bb4l bin {b}'".format(b = iB +1)) + "\n"
                         else:
                             outyear += tmpline.replace(";", "&& " + cutstring + " && " + tmpcut + " ;").replace("bb4l+", "bb4l_partbin{b}+".format(b = iB)).replace("FillColor=798", "FillColor=" + str(vl.coloursForDiffWithCombine[iB + 1]) + ",Label='bb4l bin {b}'".format(b = iB + 1)) + "\n"
 
@@ -104,21 +106,21 @@ def produceAdHocMCAandUncsfiles(thepath, they, thev):
 
             # now systs
             outyear = ""
-            #with open(pathtooriginalmca + "/mca-{y}-bb4l-uncs.txt".format(y = iY), "r") as scaff:
-                #for line in scaff:
-                    #tmpline = line.strip()
-                    #if tmpline == "":       continue
-                    #elif tmpline[0] == "#": continue
+            with open(pathtooriginalmca + "/mca-{y}-bb4l-uncs.txt".format(y = iY), "r") as scaff:
+                for line in scaff:
+                    tmpline = line.strip()
+                    if tmpline == "":       continue
+                    elif tmpline[0] == "#": continue
 
-                    #for iB in range(len(vl.varList[thev]["bins_particle"]) - 1):
-                        #tmpcut = "(" + str(vl.varList[thev]["bins_particle"][iB]) + "<=" + vl.varList[thev]["var_particle"] + ") && (" + vl.varList[thev]["var_particle"] + "<" + str(vl.varList[thev]["bins_particle"][iB + 1]) + ")"
-                        #outyear += tmpline.replace(";", ": " + cutstring + " && " + tmpcut + " ;").replace(tmpline.split(":")[0].replace(" ", ""), tmpline.split(":")[0].replace(" ", "") + "_partbin{b}".format(b = iB)) + "\n"
+                    for iB in range(len(vl.varList[thev]["bins_particle"]) - 1):
+                        tmpcut = "(" + str(vl.varList[thev]["bins_particle"][iB]) + "<=" + vl.varList[thev]["var_particle"] + ") && (" + vl.varList[thev]["var_particle"] + "<" + str(vl.varList[thev]["bins_particle"][iB + 1]) + ")"
+                        outyear += tmpline.replace(";", ": " + cutstring + " && " + tmpcut + " ;").replace(tmpline.split(":")[0].replace(" ", ""), tmpline.split(":")[0].replace(" ", "") + "_partbin{b}".format(b = iB)) + "\n"
 
-                    #outyear += tmpline.replace(";", ": (!(" + cutstring + ")) ;").replace(tmpline.split(":")[0].replace(" ", ""), tmpline.split(":")[0].replace(" ", "") + "_bkg") + "\n"
+                    outyear += tmpline.replace(";", ": (!(" + cutstring + ")) ;").replace(tmpline.split(":")[0].replace(" ", ""), tmpline.split(":")[0].replace(" ", "") + "_bkg") + "\n"
 
-            #foutyear = open(thepath + "/" + "mca-bb4l-{y}-uncs.txt".format(y = iY), "w")
-            #foutyear.write(outyear)
-            #foutyear.close(); del foutyear
+            foutyear = open(thepath + "/" + "mca-bb4l-{y}-uncs.txt".format(y = iY), "w")
+            foutyear.write(outyear)
+            foutyear.close(); del foutyear
     else:
         outyear = ""
         with open(pathtooriginalmca + "/mca-{y}-bb4l.txt".format(y = they), "r") as scaff:
@@ -140,27 +142,28 @@ def produceAdHocMCAandUncsfiles(thepath, they, thev):
             foutyear.write(outyear)
             foutyear.close(); del foutyear
         ## now systs
-        #outyear = ""
-        #with open(pathtooriginalmca + "/mca-{y}-bb4l-uncs.txt".format(y = they), "r") as scaff:
-            #for line in scaff:
-                #tmpline = line.strip()
-                #if tmpline == "":       continue
-                #elif tmpline[0] == "#": continue
+        outyear = ""
+        with open(pathtooriginalmca + "/mca-{y}-bb4l-uncs.txt".format(y = they), "r") as scaff:
+            for line in scaff:
+                tmpline = line.strip()
+                if tmpline == "":       continue
+                elif tmpline[0] == "#": continue
 
-                #for iB in range(len(vl.varList[thev]["bins_particle"]) - 1):
-                    #tmpcut = "(" + str(vl.varList[thev]["bins_particle"][iB]) + "<=" + vl.varList[thev]["var_particle"] + ") && (" + vl.varList[thev]["var_particle"] + "<" + str(vl.varList[thev]["bins_particle"][iB + 1]) + ")"
-                    #outyear += tmpline.replace(";", ": " + cutstring + " && " + tmpcut + " ;").replace(tmpline.split(":")[0].replace(" ", ""), tmpline.split(":")[0].replace(" ", "") + "_partbin{b}".format(b = iB)) + "\n"
+                for iB in range(len(vl.varList[thev]["bins_particle"]) - 1):
+                    tmpcut = "(" + str(vl.varList[thev]["bins_particle"][iB]) + "<=" + vl.varList[thev]["var_particle"] + ") && (" + vl.varList[thev]["var_particle"] + "<" + str(vl.varList[thev]["bins_particle"][iB + 1]) + ")"
+                    outyear += tmpline.replace(";", ": " + cutstring + " && " + tmpcut + " ;").replace(tmpline.split(":")[0].replace(" ", ""), tmpline.split(":")[0].replace(" ", "") + "_partbin{b}".format(b = iB)) + "\n"
 
-                #outyear += tmpline.replace(";", ": (!(" + cutstring + ")) ;").replace(tmpline.split(":")[0].replace(" ", ""), tmpline.split(":")[0].replace(" ", "") + "_bkg") + "\n"
+                outyear += tmpline.replace(";", ": (!(" + cutstring + ")) ;").replace(tmpline.split(":")[0].replace(" ", ""), tmpline.split(":")[0].replace(" ", "") + "_bkg") + "\n"
 
-        #foutyear = open(thepath + "/" + "mca-bb4l-{y}-uncs.txt".format(y = they), "w")
-        #foutyear.write(outyear)
-        #foutyear.close(); del foutyear
+        foutyear = open(thepath + "/" + "mca-bb4l-{y}-uncs.txt".format(y = they), "w")
+        foutyear.write(outyear)
+        foutyear.close(); del foutyear
     
     
     ################################# INCERTIDUMBRES
     outuncs = ""
     with open("./twttbar-run2UL/differential/uncs/uncs-twttbar.txt", "r") as scaff:
+    #with open(f"./twttbar-run2UL/differential/uncs/uncs-twttbar_{variable}.txt", "r") as scaff:
         for line in scaff:
             if "alias" in line:
                 outuncs += line.replace("bb4l", "|".join(["bb4l_bkg"] + ["bb4l_partbin{b}".format(b = iB) for iB in range(len(vl.varList[thev]["bins_particle"]) - 1)]))
@@ -289,10 +292,11 @@ def produceAdHocMCAandUncsfiles(thepath, they, thev):
     return
 
 
-def CardsCommand(prod, year, var, isAsimov, nthreads, outpath, noUnc, useFibre, extra_):
-    cutsfile_  = "twttbar-run2UL/differential/cuts/cuts-detector-2j2t.txt"
+def CardsCommand(prod, year, var, isAsimov, nthreads, outpath, noUnc, useFibre, extra_, njnt):
+    cutsfile_  = "twttbar-run2UL/differential/cuts/cuts-detector-{njetsnbtags}.txt".format(njetsnbtags=njnt)
 
-    samplespaths_ = "-P " + friendspath + "/" + prod + ("/" + year) * (year != "run2")
+    if year=="run2": samplespaths_ = "-P " + friendspath + "/" + prod + ("/" + year) * (year != "run2")
+    if year != "run2": samplespaths_ = "-P " + friendspath + "/" + prod + ("/" + year) * (year != "run2") + "/mergedFiles"
     if useFibre: samplespaths_ = samplespaths_.replace("phedexrw", "phedex").replace("cienciasrw", "ciencias")
 
     nth_       = "" if nthreads == 0 else ("--split-factor=-1 -j " + str(nthreads))
@@ -304,13 +308,14 @@ def CardsCommand(prod, year, var, isAsimov, nthreads, outpath, noUnc, useFibre, 
 
     mcafile_   = outpath_ + "/" + "mca-total.txt"
     if not os.path.isfile(mcafile_) or redofiles:
-        produceAdHocMCAandUncsfiles(outpath_, year, var)
+        produceAdHocMCAandUncsfiles(outpath_, year, var,njnt)
 
     variable_  = vl.varList[var]["var_detector"]
     bins_      = PythonListToString(vl.varList[var]["bins_detector"])
     name_      = "--binname card_" + var
 
     theweights_ = theweights
+    #if 'Onebin' not in var: extra_= "--control_lnN"
 
     comm = commandscaff.format(outpath      = outpath_,
                                friends      = friends_,
@@ -371,6 +376,9 @@ if __name__=="__main__":
     parser.add_argument('--useFibre',  '-f', action  = "store_true", dest = "useFibre", required = False, default = False)
     parser.add_argument('--check',     '-c', action  = "store_true", dest = "check",    required = False, default = False)
     parser.add_argument('--asimov',    '-a', action  = "store_true", dest = "asimov",   required = False, default = False)
+    parser.add_argument('--njetsnbjets',      '-njnt',  metavar = 'njnt',       dest = "njnt",     required = False, default = "2j2t")
+    parser.add_argument('--only-mca',         dest = 'onlymca', action = 'store_true', required = False, default = False,
+                        help = 'Only produce ad-hoc MCA and uncertainty files (calls produceAdHocMCAandUncsfiles) and exit')
 
 
     args     = parser.parse_args()
@@ -387,9 +395,10 @@ if __name__=="__main__":
     pretend  = args.pretend
     variable = args.variable
     useFibre = args.useFibre
+    njnt      = args.njnt
     thevars  = vl.varList["Names"]["Variables"]
     theyears = ["2016", "2017", "2018", "run2"]
-    vetolist = ["plots", "Fiducial", "control", "tables"]
+    vetolist = ["plots",  "control", "tables"] #"Fiducial",
 
     if check:
         wr.warn("WARNING: check is only implemented for the first step.")
@@ -415,10 +424,24 @@ if __name__=="__main__":
 
         for yr in theyears:
             for var in thevars:
-                if "Fiducial" in var: continue
-                tasks.append( (prod, yr, var, asimov, nthreads, outpath, noUnc, useFibre, extra, pretend, queue) )
+                #if "Fiducial" in var: continue
+                tasks.append( (prod, yr, var, asimov, nthreads, outpath, noUnc, useFibre, extra, pretend, queue, njnt) )
 
-        #print tasks
+        print(tasks)
+
+        # If requested, only produce the ad-hoc MCA and uncertainty files and exit.
+        if args.onlymca:
+            print("> Producing only ad-hoc MCA and uncertainty files for the selected tasks...")
+            for t in tasks:
+                # unpack task tuple: (prod, yr, var, asimov, nthreads, outpath, noUnc, useFibre, extra, pretend, queue, njnt)
+                (_prod, _yr, _var, _asimov, _nthreads, _outpath, _noUnc, _useFibre, _extra, _pretend, _queue, _njnt) = t
+                outpath_for_mca = _outpath + "/" + _yr + "/" + _var + "/sigextr_fit_combine/bincards"
+                if not os.path.isdir(outpath_for_mca):
+                    os.system("mkdir -p " + outpath_for_mca)
+                print("  - Producing in: " + outpath_for_mca)
+                produceAdHocMCAandUncsfiles(outpath_for_mca, _yr, _var,njnt)
+            print("> Done producing MCA and uncertainty files.")
+            sys.exit(0)
         #for el in tasks: print el
         #sys.exit()
 

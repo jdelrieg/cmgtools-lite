@@ -36,6 +36,9 @@ class particleAndPartonVars_TopRun2UL(Module):
                          "DressLep1Lep2Jet1MET_Mt",
                          "DressLep1Lep2BJet1BJet2_Pt",
                          "DressLep1Lep2BJet1BJet2_M",
+                         "DressLep1Lep2BJet1BJet2MET_Pt",
+                         "DressLep1Lep2BJet1BJet2MET_Mt",
+                         "DressBJet1BJet2_Pt",
                          "DressLep1Lep2Jet1_Pt",
                          "DressLep1Lep2Jet1_M",
                          "DressLep1Lep2Jet1_E",
@@ -59,6 +62,11 @@ class particleAndPartonVars_TopRun2UL(Module):
                          "DressHTtot",
 
                          "Dressminimax",
+                         "Dressminimax_bjets",
+                         "DressLep1BJet1_M",
+                         "DressLep1BJet2_M",
+                         "DressLep2BJet1_M",
+                         "DressLep2BJet2_M",
                          "DressLep1Lep2Jet1Jet2MET_M",
                          "DressLep1Jet2_M",
                          "DressLep2Jet2_M",
@@ -150,7 +158,15 @@ class particleAndPartonVars_TopRun2UL(Module):
         allret["DressLep1Jet2_M"]         = -99
         allret["DressLep2Jet2_M"]         = -99
         allret["Dressminimax"]            = -99
+        allret["Dressminimax_bjets"]            = -99
+        allret["DressLep1BJet1_M"]         = -99
+        allret["DressLep1BJet2_M"]         = -99
+        allret["DressLep2BJet1_M"]         = -99
+        allret["DressLep2BJet2_M"]         = -99
         allret["DressLep1Lep2BJet1BJet2_Pt"] = -99
+        allret["DressBJet1BJet2_Pt"] = -99
+        allret["DressLep1Lep2BJet1BJet2MET_Pt"] = -99
+        allret["DressLep1Lep2BJet1BJet2MET_Mt"] = -99
         allret["DressLep1Lep2BJet1BJet2_M"]  = -99
         allret["DressLep1Lep2Jet1Jet2MET_M"] = -99
         allret["GenWWbb_M"]               = -99
@@ -282,6 +298,15 @@ class particleAndPartonVars_TopRun2UL(Module):
                         if len(jetsb_4m) > 1:
                             allret["DressLep1Lep2BJet1BJet2_Pt"] = (leps_4m[0] + leps_4m[1] + jetsb_4m[0] + jetsb_4m[1]).Pt()
                             allret["DressLep1Lep2BJet1BJet2_M"]  = (leps_4m[0] + leps_4m[1] + jetsb_4m[0] + jetsb_4m[1]).M() 
+                            allret["DressBJet1BJet2_Pt"] = (jetsb_4m[0] + jetsb_4m[1]).Pt()
+                            allret["DressLep1Lep2BJet1BJet2MET_Pt"] = (leps_4m[0] + leps_4m[1] + jetsb_4m[0] + jetsb_4m[1]+met_4m).Pt()
+                            allret["DressLep1Lep2BJet1BJet2MET_Mt"] = (leps_4m[0] + leps_4m[1] + jetsb_4m[0] + jetsb_4m[1]+met_4m).Mt()
+                            
+                            allret["DressLep1BJet2_M"]       = (leps_4m[0] + jetsb_4m[1]).M()
+                            allret["DressLep2BJet2_M"]       = (leps_4m[1] + jetsb_4m[1]).M()
+                            allret["DressLep2BJet1_M"]       = (leps_4m[1] + jetsb_4m[0]).M()
+                            allret["DressLep1BJet1_M"]       = (leps_4m[0] + jetsb_4m[0]).M()
+                            allret["Dressminimax_bjets"] = min([max([allret["DressLep1BJet1_M"],allret["DressLep2BJet2_M"]]),max(allret["DressLep2BJet1_M"],allret["DressLep1BJet2_M"])])                            
 
         thesample = ""
         for i in range(event.nDatasetName):

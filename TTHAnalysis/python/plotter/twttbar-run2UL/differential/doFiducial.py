@@ -107,6 +107,12 @@ def calculateNormalisedValuesWithFF(inpath, iY, iV):
     normcovmat.Scale(1, "width")
 
     dirfinal = {}
+    #dirvar.pop('Lep1Lep2BJet1BJet2_Pt_ATLAS_bb4l_pdF77Up')
+    #dirvar.pop('Lep1Lep2BJet1BJet2_Pt_ATLAS_bb4l_pdF77Down')
+    dirvar.pop('Fiducial_bb4l_pdF77Up')
+    dirvar.pop('Fiducial_bb4l_pdF77Down')
+    
+    #print('TIPO',type(dirvar))
     for key in dirvar:
         name    = "Fiducial" if key == iV else "Fiducial" + key.replace(iV, "")
         dirfinal[key] = deepcopy(dirvar[key].Clone())

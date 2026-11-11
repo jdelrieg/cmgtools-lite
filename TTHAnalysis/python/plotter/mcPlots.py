@@ -448,6 +448,58 @@ def doRatioHists(pspec,pmap,total,maxRange,fixRange=False,fitRatio=None,errorsOn
         ratio.SetLineWidth(2)
         ratio.SetLineColor(iS.GetStack().Last().GetLineColor())
         ratios.append(ratio)
+    
+    #loop added for building alternative dots
+#    nNom = len(ratios) - len(compstacks)
+#    compGraphs = []
+#    for iS, rh in zip(compstacks, ratios[nNom:]):
+#        g = ROOT.TGraph()
+#        g.SetName(rh.GetName() + "_graph")
+#        ip = 0
+#        for b in range(1, rh.GetNbinsX()+1):
+#            y = rh.GetBinContent(b)
+#            if y == 0: continue              # empty / blinded bins
+#            xax = rh.GetXaxis()
+#            g.SetPoint(ip, xax.GetBinCenter(b) + options.ratioCompShift*xax.GetBinWidth(b), y)
+#            ip += 1
+#        col = iS.GetStack().Last().GetLineColor()     # the red from FillColor of ttbartw
+#        g.SetMarkerStyle(options.ratioCompMarkerStyle)
+#        g.SetMarkerSize(options.ratioCompMarkerSize)
+#        g.SetMarkerColor(col)
+#        g.SetLineColor(col)
+#        compGraphs.append(g)
+    #end loop
+    nNom = len(ratios) - len(compstacks)
+    compGraphs = []
+    pg = getattr(pmap[numkey], 'poissonGraph', None)   # data Poisson graph, if available
+    for iS, rh in zip(compstacks, ratios[nNom:]):
+        g = ROOT.TGraphAsymmErrors()
+        g.SetName(rh.GetName() + "_graph")
+        den = iS.GetStack().Last()
+        xax = rh.GetXaxis()
+        ip = 0
+        for b in range(1, rh.GetNbinsX()+1):
+            y = rh.GetBinContent(b)
+            if y == 0: continue              # empty / blinded bins
+            x = xax.GetBinCenter(b) + options.ratioCompShift*xax.GetBinWidth(b)
+            d = den.GetBinContent(b)
+            if pg is not None and d > 0 and (b-1) < pg.GetN():
+                eyl = pg.GetErrorYlow(b-1)/d
+                eyh = pg.GetErrorYhigh(b-1)/d
+            else:
+                eyl = eyh = rh.GetBinError(b)
+            g.SetPoint(ip, x, y)
+            g.SetPointError(ip, 0, 0, eyl, eyh)
+            ip += 1
+        col = iS.GetStack().Last().GetLineColor()
+        g.SetMarkerStyle(options.ratioCompMarkerStyle)
+        g.SetMarkerSize(options.ratioCompMarkerSize)
+        g.SetMarkerColor(col)
+        g.SetLineColor(col)
+        g.SetLineWidth(1)
+        compGraphs.append(g)
+        #end loop
+
 
     unity  = total.raw().Clone("")
     unityErr  = total.graphAsymmTotalErrors(relative=True)
@@ -546,8 +598,14 @@ def doRatioHists(pspec,pmap,total,maxRange,fixRange=False,fitRatio=None,errorsOn
     line.SetLineColor(options.ratioLinePersonalization[2]);
     if not options.NotDrawRatioLine:
         line.Draw("L")
-    for ratio in ratios:
+    #for ratio in ratios:
+        #ratio.Draw("E SAME" if ratio.ClassName() != "TGraphAsymmErrors" else "PZ SAME");
+    
+    for ratio in ratios[:nNom]:          # nominal data/pred: black dots, unchanged
         ratio.Draw("E SAME" if ratio.ClassName() != "TGraphAsymmErrors" else "PZ SAME");
+    for g in compGraphs:                 # comparison: marker only, with bars
+        if g.GetN() > 0: g.Draw("PZ SAME")
+    
     leg0 = ROOT.TLegend(0.12 if doWide else 0.2, 0.84, 0.25 if doWide else 0.45, 0.94)
     leg0.SetFillColor(0)
     leg0.SetShadowColor(0)
@@ -564,9 +622,23 @@ def doRatioHists(pspec,pmap,total,maxRange,fixRange=False,fitRatio=None,errorsOn
     leg1.SetTextSize(textSize*0.7/0.3)
     leg1.AddEntry(unityErr, "total unc.", "F")
     if showStatTotLegend: leg1.Draw()
-    global legendratio0_, legendratio1_
+    
+    leg2 = ROOT.TLegend(*options.ratioLegendPosition)
+    leg2.SetFillStyle(0)
+    leg2.SetBorderSize(0)
+    leg2.SetTextFont(43)
+    leg2.SetTextSize(options.ratioLegendTextSize)
+    leg2.SetNColumns(1)
+    if nNom > 0:
+        leg2.AddEntry(ratios[0], options.ratioNomLabel, "PE")
+    for g in compGraphs:
+         if g.GetN() > 0: leg2.AddEntry(g, options.ratioCompLabel, "PE")
+    if compGraphs: leg2.Draw()
+    global legendratio0_, legendratio1_, legendratio2_, ratioCompGraphs_
     legendratio0_ = leg0
     legendratio1_ = leg1
+    legendratio2_ = leg2
+    ratioCompGraphs_ = compGraphs
     return (ratios, unity,(unityErr,unityErr0), line)
 
 def doStatTests(total,data,test,legendCorner):
@@ -742,6 +814,13 @@ class PlotMaker:
                     #print "final blinded range x = [%s, %s]" % (xblind[0],xblind[1])
                 elif blind != "None":
                     raise RuntimeError("Unrecongnized value for 'Blinded' option, stopping here")
+                #
+                # Asimov data: replace real data with the summed MC prediction.
+                if self._options.asimovData:
+                    pdata = mergePlots('htemp', [v for (k,v) in pmap.items() if k not in ['data','ttbartw','signal','background']])
+                    #print([v for (k,v) in pmap.items() if k != 'data'])
+                    pdata = pdata.Clone(str(pdata.GetName()).replace("_total", "_data"))
+                    pmap["data"] = pdata
                 #
                 # Pseudo-data?
                 if self._options.pseudoData: # to be fixed with HistoWithNuisances
@@ -1262,7 +1341,7 @@ def addPlotMakerOptions(parser, addAlsoMCAnalysis=True):
     parser.add_option("--maxDigitsYaxis", dest="maxDigits", type="int", default=0, help="Sets the maximum number of digits in the Y axis")
     parser.add_option("--lspamPosition", dest="lspamPosition", type="float", nargs=4, default=(.16,.955,.60,.995), help="Position of the lspam: (x1,y1,x2,y2)")
     parser.add_option("--lspamShiftLegend", dest="lspamShiftLegend", action="store_true", default=False, help="Shift lspam when legend is in TL position")
-    parser.add_option("--rspam", dest="rspam",   type="string", default="%(lumi) (13.6 TeV)", help="Spam text on the right hand side");
+    parser.add_option("--rspam", dest="rspam",   type="string", default="%(lumi) (13 TeV)", help="Spam text on the right hand side");
     parser.add_option("--addspam", dest="addspam", type = "string", default=None, help="Additional spam text on the top left side, in the frame");
     parser.add_option("--addspamPosition", dest="addspamPosition", type="float", nargs=4, default=(.23, .855, .6, .895), help="Position of the addspam: (x1,y1,x2,y2)")
     parser.add_option("--addspamAlignment", dest="addspamAlignment", type="int", default=12, help="Alignment of the addspam")
@@ -1280,6 +1359,7 @@ def addPlotMakerOptions(parser, addAlsoMCAnalysis=True):
     parser.add_option("--showSFitShape", dest="showSFitShape", action="store_true", default=False, help="Stack a shape of background + scaled signal normalized to total data")
     parser.add_option("--showMCError", dest="showMCError", action="store_true", default=False, help="Show a shaded area for MC uncertainty")
     parser.add_option("--showRatio", dest="showRatio", action="store_true", default=False, help="Add a data/sim ratio plot at the bottom")
+    parser.add_option("--asimov", dest="asimovData", action="store_true", default=False, help="Ignore real data and use the sum of all MC processes as data")
     parser.add_option("--ratioDen", dest="ratioDen", type="string", default="background", help="Denominator of the ratio, when comparing MCs")
     parser.add_option("--ratioNums", dest="ratioNums", type="string", default="signal", help="Numerator(s) of the ratio, when comparing MCs (comma separated list of regexps)")
     parser.add_option("--ratioYLabel", dest="ratioYLabel", type="string", default="Data/pred.", help="Y axis label of the ratio histogram.")
@@ -1349,7 +1429,15 @@ def addPlotMakerOptions(parser, addAlsoMCAnalysis=True):
     parser.add_option("--noXErrData", dest="noXErrData", action="store_true", default=False, help="Don't plot x error in data for histograms with equal bin size")
     parser.add_option("--removeMarkerUncertainty", dest="removeMarkerUncertainty", action="store_true", default=False, help="Remove point from uncertainty band")
     parser.add_option("--centerRatioYTitle", dest="centerRatioYTitle", action="store_true", default=False, help="Center Y axis title of the ratio plot")
-    
+    #Below: additions for ratio fix after approval
+    parser.add_option("--ratioCompMarkerStyle", dest="ratioCompMarkerStyle", type="int",   default=22,   help="Marker style of the comparison points in the ratio (22 = filled triangle up, 26 = open triangle)")
+    parser.add_option("--ratioCompMarkerSize",  dest="ratioCompMarkerSize",  type="float", default=1.0,  help="Marker size of the comparison points in the ratio")
+    parser.add_option("--ratioCompShift",       dest="ratioCompShift",       type="float", default=0.25, help="Horizontal shift of the comparison points, in units of bin width")
+    parser.add_option("--ratioNomLabel",  dest="ratioNomLabel",  type="string", default="Data / (bb4l+bkg)",              help="Ratio legend entry for the nominal points")
+    parser.add_option("--ratioCompLabel", dest="ratioCompLabel", type="string", default="Data / (t#bar{t}+tW+bkg)", help="Ratio legend entry for the comparison points")
+    parser.add_option("--ratioLegendPosition", dest="ratioLegendPosition", type="float", nargs=4, default=(0.18, 0.62, 0.40, 0.86), help="Ratio legend (x1,y1,x2,y2) in pad NDC")# 0.20, 0.84, 0.95, 0.94
+    parser.add_option("--ratioLegendTextSize", dest="ratioLegendTextSize", type="float", default=16, help="Ratio legend text size in pixels (font 43)")
+  
     
 if __name__ == "__main__":
     from optparse import OptionParser

@@ -1,0 +1,13 @@
+
+# New sample
+syst_bb4l_mtop_up : BBLLNuNu_MT-173p5_TuneCP5_13TeV-powheg-pythia8* : 95.57 ; 
+syst_bb4l_mtop_dn : BBLLNuNu_MT-171p5_TuneCP5_13TeV-powheg-pythia8* : 95.57 ; 
+
+
+syst_bb4l_ue_up : BBLLNuNu_TuneCP5up_13TeV_powheg_pythia8* : 95.57 ; 
+syst_bb4l_ue_dn : BBLLNuNu_TuneCP5down_13TeV_powheg_pythia8* : 95.57 ; 
+syst_bb4l_cr1 : BBLLNuNu_TuneCP5CR1_13TeV_powheg_pythia8* : 95.57 ; 
+syst_bb4l_cr2 : BBLLNuNu_TuneCP5CR2_13TeV_powheg_pythia8* : 95.57 ; 
+syst_bb4l_erdon : BBLLNuNu_TuneCP5_erdON_13TeV_powheg_pythia8* : 95.57 ; 
+
+

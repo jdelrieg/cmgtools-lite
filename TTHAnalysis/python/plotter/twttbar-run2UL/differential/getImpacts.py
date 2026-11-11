@@ -7,8 +7,12 @@ from multiprocessing import Pool
 import CombineHarvester.CombineTools.plotting as plot
 import CombineHarvester.CombineTools.combine.rounding as rounding
 
+print(os.path.abspath(plot.__file__))
+print(os.path.abspath(rounding.__file__))
+
 sys.path.append('{cmsswpath}/src/CMGTools/TTHAnalysis/python/plotter/twttbar-run2UL/differential/'.format(cmsswpath = os.environ['CMSSW_BASE']))
 import varList as vl
+
 
 r.PyConfig.IgnoreCommandLineOptions = True
 r.TH1.AddDirectory(0)
@@ -17,9 +21,19 @@ r.TH1.AddDirectory(0)
 #comm2 = "combineTool.py -M Impacts -d {incard} --robustFit 1 --doFits {ncores} {asimov} {extra} -m 1 -n {prefix} --redefineSignalPOIs {pois} --robustHesse 1 --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000"
 #comm3 = "combineTool.py -M Impacts -d {incard} -o impacts{prefix}.json {ncores} {asimov} {extra} -m 1 -n {prefix} --redefineSignalPOIs {pois} --robustHesse 1 --robustFit 1 --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000"
 
-comm1 = "combineTool.py -M Impacts -d {incard} --doInitialFit --robustFit 1 {ncores} {asimov} {extra} -m 1 -n {prefix} --out {outdir} --redefineSignalPOIs {pois} --floatOtherPOIs 1 --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000 --cminDefaultMinimizerStrategy 0 --robustHesse 1"
-comm2 = "combineTool.py -M Impacts -d {incard} --robustFit 1 --doFits {ncores} {asimov} {extra} -m 1 -n {prefix} --redefineSignalPOIs {pois} --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000 --cminDefaultMinimizerStrategy 0 --robustHesse 1"
-comm3 = "combineTool.py -M Impacts -d {incard} -o impacts{prefix}.json {ncores} {asimov} {extra} -m 1 -n {prefix} --redefineSignalPOIs {pois} --robustFit 1  --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000 --cminDefaultMinimizerStrategy 0 --robustHesse 1"
+comm1 = "combineTool.py -M Impacts -d {incard} --doInitialFit --robustFit 1 {ncores} {asimov} {extra} -m 1 -n {prefix} --out {outdir} --redefineSignalPOIs {pois} --floatOtherPOIs 1 --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000 --cminDefaultMinimizerStrategy 0 --robustHesse 1  --parallel 100"
+comm2 = "combineTool.py -M Impacts -d {incard} --robustFit 1 --doFits {ncores} {asimov} {extra} -m 1 -n {prefix} --redefineSignalPOIs {pois} --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000 --cminDefaultMinimizerStrategy 0 --robustHesse 1 --parallel 100"
+comm3 = "combineTool.py -M Impacts -d {incard} --robustFit 1 -o impacts{prefix}.json {ncores} {asimov} {extra} -m 1 -n {prefix} --redefineSignalPOIs {pois}   --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000 --cminDefaultMinimizerStrategy 0 --robustHesse 1  --parallel 100"
+
+
+comm1_dphi = "combineTool.py -M Impacts -d {incard} --doInitialFit --robustFit 1 {ncores} {asimov} {extra} -m 1 -n {prefix} --redefineSignalPOIs {pois} --floatOtherPOIs 1 --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000   --cminDefaultMinimizerStrategy 0 --cminDefaultMinimizerTolerance 0.001 --setParameters btagging_corr=-0.35 --robustHesse 1  2>&1 | tee Initial_all.log"
+comm2_dphi = "combineTool.py -M Impacts -d {incard} --doFits --robustFit 1  -m 1 -n {prefix} --redefineSignalPOIs {pois} --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000 --cminDefaultMinimizerStrategy 1 --cminDefaultMinimizerTolerance 0.01 --robustHesse 1 --parallel 100 2>&1 | tee doFits_all.log"
+comm3_dphi = "combineTool.py -M Impacts -d {incard} --robustFit 1 -o impacts{prefix}.json  {ncores} {asimov} {extra} -m 1 -n {prefix} --redefineSignalPOIs {pois} --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000 --cminDefaultMinimizerStrategy 0 --robustHesse 1 --parallel 100"
+
+comm1_bbllm = "combineTool.py -M Impacts -d {incard} --doInitialFit --robustFit 1 {ncores} {asimov} {extra} -m 1 -n {prefix} --out {outdir} --redefineSignalPOIs {pois} --floatOtherPOIs 1 --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000 --cminDefaultMinimizerStrategy 1 --robustHesse 1  --parallel 100"
+comm2_bbllm = "combineTool.py -M Impacts -d {incard} --robustFit 1 --doFits {ncores} {asimov} {extra} -m 1 -n {prefix} --redefineSignalPOIs {pois} --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000 --cminDefaultMinimizerStrategy 1 --robustHesse 1 --parallel 100"
+comm3_bbllm = "combineTool.py -M Impacts -d {incard} --robustFit 1 -o impacts{prefix}.json {ncores} {asimov} {extra} -m 1 -n {prefix} --redefineSignalPOIs {pois}   --X-rtd MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=5000000 --cminDefaultMinimizerStrategy 1 --robustHesse 1  --parallel 100"
+
 
 def GetRounded(nom, e_hi, e_lo):
     if e_hi < 0.0:
@@ -374,7 +388,12 @@ def makeImpacts(task):
                              prefix = year + "_" + varName,
                              pois   = thepois,
     )
+    
+    #Fix due to the complex behaviour of dphi
+    if variable == "Lep1Lep2_DPhi" and doObs==True: firstcomm = comm1_dphi.format(y      = year,ncores = ("--parallel " + str(ncores)) if ncores else "",asimov = asimov_,incard = "../fit_output.root",outdir = "./",var    = varName,extra  = extra,prefix = year + "_" + varName,pois   = thepois)
 
+    if variable == "Lep1Lep2BJet1BJet2_M" and doObs==True: firstcomm = comm1_bbllm.format(y      = year,ncores = ("--parallel " + str(ncores)) if ncores else "",asimov = asimov_,incard = "../fit_output.root",outdir = "./",var    = varName,extra  = extra,prefix = year + "_" + varName,pois   = thepois)
+    
     if verbose:
         print("First command:", firstcomm, "\n")
 
@@ -384,6 +403,7 @@ def makeImpacts(task):
             raise RuntimeError("FATAL: first command failed to execute for variable {v} of year {y}.".format(v = varName,
                                                                                                              y = year))
 
+    
     secondcomm = comm2.format(y     = year,
                              ncores = ("--parallel " + str(ncores)) if ncores else "",
                              asimov = asimov_,
@@ -394,6 +414,13 @@ def makeImpacts(task):
                              prefix = year + "_" + varName,
                              pois   = thepois,
     )
+
+    #Fix due to the complex behaviour of dphi
+    if variable == "Lep1Lep2_DPhi" and doObs==True : secondcomm = comm2_dphi.format(y      = year,ncores = ("--parallel " + str(ncores)) if ncores else "",asimov = asimov_,incard = "../fit_output.root",outdir = "./",var    = varName,extra  = extra,prefix = year + "_" + varName,pois   = thepois)
+    
+    if variable == "Lep1Lep2BJet1BJet2_M" and doObs==True: secondcomm = comm2_bbllm.format(y      = year,ncores = ("--parallel " + str(ncores)) if ncores else "",asimov = asimov_,incard = "../fit_output.root",outdir = "./",var    = varName,extra  = extra,prefix = year + "_" + varName,pois   = thepois)    
+    
+    #End of fix due to the complex behaviour of dphi
 
     if verbose:
         print("Second command:", secondcomm, "\n")
@@ -415,6 +442,12 @@ def makeImpacts(task):
                              pois   = thepois,
     )
 
+    #Fix due to the complex behaviour of dphi
+    if variable == "Lep1Lep2_DPhi" and doObs==True : thirdcomm = comm3_dphi.format(y      = year,ncores = ("--parallel " + str(ncores)) if ncores else "",asimov = asimov_,incard = "../fit_output.root",outdir = "./",var    = varName,extra  = extra,prefix = year + "_" + varName,pois   = thepois)
+    if variable == "Lep1Lep2BJet1BJet2_M" and doObs==True: thirdcomm = comm3_bbllm.format(y      = year,ncores = ("--parallel " + str(ncores)) if ncores else "",asimov = asimov_,incard = "../fit_output.root",outdir = "./",var    = varName,extra  = extra,prefix = year + "_" + varName,pois   = thepois)    
+    
+    #End of fix due to the complex behaviour of dphi    
+    
     if verbose:
         print("Third command:", thirdcomm, "\n")
 

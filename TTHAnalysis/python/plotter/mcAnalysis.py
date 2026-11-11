@@ -67,7 +67,8 @@ class MCAnalysis:
                 suboptions = deepcopy(options)
                 suboptions.year = year
                 suboptions.lumi = lumi
-                suboptions.path = [ path  + '/' + year for path in options.path ]
+                #suboptions.path = [ path  + '/' + year for path in options.path ]
+                suboptions.path = [ path  + '/' + year + '/mergedFiles' for path in options.path ]
                 self._subMcas.append( MCAnalysis(samples, suboptions))
                 for pname,tty in self._subMcas[-1]._allData.items():
                     if pname in self._allData:

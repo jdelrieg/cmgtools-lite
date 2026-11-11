@@ -1,0 +1,85 @@
+## Datacard for cut file twttbar-run2UL/differential/cuts/cuts-nonfiducial-2j2t.txt
+shapes *        * nonfiducial.root x_$PROCESS x_$PROCESS_$SYSTEMATIC
+##----------------------------------
+bin         nonfiducial
+observation 21431.36594582964
+##----------------------------------
+##----------------------------------
+bin                            nonfiducial 
+process                               bb4l 
+process                                  0 
+rate                             21431.366 
+##----------------------------------
+btagging_2016            shape           1 
+btagging_2016apv         shape           1 
+btagging_2017            shape           1 
+btagging_2018            shape           1 
+btagging_corr            shape           1 
+elecidsf                 shape           1 
+elecrecosf               shape           1 
+elecsigma                shape           1 
+fsr                      shape           1 
+isr                      shape           1 
+jer_2016                 shape           1 
+jer_2017                 shape           1 
+jer_2018                 shape           1 
+jes_Absolute             shape           1 
+jes_Absolute_2016        shape           1 
+jes_Absolute_2017        shape           1 
+jes_Absolute_2018        shape           1 
+jes_BBEC1                shape           1 
+jes_BBEC1_2016           shape           1 
+jes_BBEC1_2017           shape           1 
+jes_BBEC1_2018           shape           1 
+jes_EC2                  shape           1 
+jes_EC2_2016             shape           1 
+jes_EC2_2017             shape           1 
+jes_EC2_2018             shape           1 
+jes_FlavorQCD            shape           1 
+jes_HF                   shape           1 
+jes_HF_2016                lnN           - 
+jes_HF_2017              shape           1 
+jes_HF_2018              shape           1 
+jes_RelativeBal          shape           1 
+jes_RelativeSample_2016  shape           1 
+jes_RelativeSample_2017  shape           1 
+jes_RelativeSample_2018  shape           1 
+jetpuid_2016             shape           1 
+jetpuid_2016apv          shape           1 
+jetpuid_2017             shape           1 
+jetpuid_2018             shape           1 
+lumi_2016                shape           1 
+lumi_2017                shape           1 
+lumi_2018                shape           1 
+lumi_corr                shape           1 
+lumi_corr1718            shape           1 
+mistagging_2016          shape           1 
+mistagging_2016apv       shape           1 
+mistagging_2017          shape           1 
+mistagging_2018          shape           1 
+mistagging_corr          shape           1 
+muonen_2016              shape           1 
+muonen_2017              shape           1 
+muonen_2018              shape           1 
+muonidsf_stat_2016       shape           1 
+muonidsf_stat_2016apv    shape           1 
+muonidsf_stat_2017       shape           1 
+muonidsf_stat_2018       shape           1 
+muonidsf_syst            shape           1 
+muonisosf_stat_2016      shape           1 
+muonisosf_stat_2016apv   shape           1 
+muonisosf_stat_2017      shape           1 
+muonisosf_stat_2018      shape           1 
+muonisosf_syst           shape           1 
+pdfhessian               shape           1 
+pileup                   shape           1 
+prefiring_2016           shape           1 
+prefiring_2017           shape           1 
+scales_muF               shape           1 
+scales_muR               shape           1 
+triggereff_2016          shape           1 
+triggereff_2016apv       shape           1 
+triggereff_2017          shape           1 
+triggereff_2018          shape           1 
+unclenergy                 lnN           - 
+* autoMCStats 10

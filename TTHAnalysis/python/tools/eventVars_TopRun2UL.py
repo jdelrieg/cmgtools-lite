@@ -26,6 +26,9 @@ class EventVars_TopRun2UL(Module):
                             "Lep1Lep2Jet1MET_Mt",
                             "Lep1Lep2BJet1BJet2_Pt",
                             "Lep1Lep2BJet1BJet2_M",
+                            "BJet1BJet2_Pt",
+                            "Lep1Lep2BJet1BJet2MET_Pt",
+                            "Lep1Lep2BJet1BJet2MET_Mt",
                             "Lep1Lep2Jet1MET_PtOverHTtot",
                             "Lep1_PtLep2_PtOverHTtot",
                             "Lep1Lep2Jet1_Pt",
@@ -60,6 +63,13 @@ class EventVars_TopRun2UL(Module):
                             "HTtot",
 
                             "minimax",
+                            "minimax_bjets",
+                            "Lep1BJet1_M",
+                            "Lep1BJet2_M",
+                            "Lep2BJet1_M",
+                            "Lep2BJet2_M",
+                            "minimax_bscore",
+                            
                             "Lep1Jet2_M",
                             "Lep2Jet2_M",
 
@@ -82,6 +92,9 @@ class EventVars_TopRun2UL(Module):
                               "Lep1Lep2Jet1MET_Mt",
                               "Lep1Lep2BJet1BJet2_Pt",
                               "Lep1Lep2BJet1BJet2_M",
+                              "BJet1BJet2_Pt",
+                              "Lep1Lep2BJet1BJet2MET_Pt",
+                              "Lep1Lep2BJet1BJet2MET_Mt",
                               "Lep1Lep2Jet1MET_PtOverHTtot",
                               "Lep1_PtLep2_PtOverHTtot",
                               "Lep1Lep2Jet1_Pt",
@@ -116,6 +129,12 @@ class EventVars_TopRun2UL(Module):
                               "HTtot",
 
                               "minimax",
+                              "minimax_bjets",
+                              "minimax_bscore",
+                              "Lep1BJet1_M",
+                              "Lep1BJet2_M",
+                              "Lep2BJet1_M",
+                              "Lep2BJet2_M",                              
                               "Lep1Jet2_M",
                               "Lep2Jet2_M",
                               "minMllAFAS",]
@@ -379,6 +398,12 @@ class EventVars_TopRun2UL(Module):
                     if istag[i]:
                         jetsb_4m.append(ijet_4m)
 
+                #scores thing built by claude
+                tagged_scores = [getattr(j, self.branchbtag) for j, t in zip(jets, istag) if t]
+                order         = sorted(range(len(jetsb_4m)), key=lambda i: tagged_scores[i], reverse=True)
+                jetsbs_4m     = [jetsb_4m[i] for i in order[:2]]               
+                #scores thing built by claude end
+                
                 if getattr(event, 'nJetSel30{v}_Recl'.format(v = sys if "unclustEn" not in sys else "")) > 0:
                     allret["Lep1Lep2Jet1MET_Pt"          + sys] = (leps_4m[0] + leps_4m[1] + jets_4m[0] + met_4m).Pt()
                     allret["Lep1Lep2Jet1MET_M"           + sys] = (leps_4m[0] + leps_4m[1] + jets_4m[0] + met_4m).M()
@@ -428,7 +453,21 @@ class EventVars_TopRun2UL(Module):
                         if len(jetsb_4m) > 1:
                             allret["Lep1Lep2BJet1BJet2_Pt"       + sys] = (leps_4m[0] + leps_4m[1] + jetsb_4m[0] + jetsb_4m[1]).Pt()
                             allret["Lep1Lep2BJet1BJet2_M"        + sys] = (leps_4m[0] + leps_4m[1] + jetsb_4m[0] + jetsb_4m[1]).M()  
-
+                            allret["BJet1BJet2_Pt"       + sys] = (jetsb_4m[0] + jetsb_4m[1]).Pt()
+                            allret["Lep1Lep2BJet1BJet2MET_Pt"       + sys] = (leps_4m[0] + leps_4m[1] + jetsb_4m[0] + jetsb_4m[1]+met_4m).Pt()
+                            allret["Lep1Lep2BJet1BJet2MET_Mt"       + sys] = (leps_4m[0] + leps_4m[1] + jetsb_4m[0] + jetsb_4m[1]+met_4m).Mt()
+                            
+                            allret["Lep1BJet2_M"       + sys] = (leps_4m[0] + jetsb_4m[1]).M()
+                            allret["Lep2BJet2_M"       + sys] = (leps_4m[1] + jetsb_4m[1]).M()
+                            allret["Lep2BJet1_M"       + sys] = (leps_4m[1] + jetsb_4m[0]).M()
+                            allret["Lep1BJet1_M"       + sys] = (leps_4m[0] + jetsb_4m[0]).M()                            
+                            allret["minimax_bjets"          + sys] = min([max([allret["Lep1BJet1_M" + sys],allret["Lep2BJet2_M" + sys]]),max( allret["Lep2BJet1_M" + sys],allret["Lep1BJet2_M" + sys])])
+                            
+                            l1b1 = (leps_4m[0] + jetsbs_4m[0]).M()
+                            l2b1 = (leps_4m[1] + jetsbs_4m[0]).M()
+                            l1b2 = (leps_4m[0] + jetsbs_4m[1]).M()
+                            l2b2 = (leps_4m[1] + jetsbs_4m[1]).M()
+                            allret["minimax_bscore" + sys] = min(max(l1b1, l2b2), max(l2b1, l1b2))
 
 
         # ============================ Variations of lepton energy corrections
@@ -476,6 +515,13 @@ class EventVars_TopRun2UL(Module):
                     if istag[i]:
                         jetsb_4m.append(ijet_4m)
                 
+                #claude score thing beginning                
+                tagged_scores = [getattr(j, self.branchbtag) for j, t in zip(jets, istag) if t]
+                order         = sorted(range(len(jetsb_4m)), key=lambda i: tagged_scores[i], reverse=True)
+                jetsbs_4m     = [jetsb_4m[i] for i in order[:2]]  
+                
+                #claude score thing end
+                                
                 ### loose jets
                 loosejets = [all_jets[getattr(event, 'iJetSel20{v}_Recl'.format(v = sys))[j]]
                            for j in range(min([getattr(event, 'nJetSel20{v}_Recl'.format(v = sys)), 5]))]
@@ -559,4 +605,21 @@ class EventVars_TopRun2UL(Module):
                         if len(jetsb_4m) > 1:
                             allret["Lep1Lep2BJet1BJet2_Pt"       + sys] = (leps_4m[0] + leps_4m[1] + jetsb_4m[0] + jetsb_4m[1]).Pt()
                             allret["Lep1Lep2BJet1BJet2_M"        + sys] = (leps_4m[0] + leps_4m[1] + jetsb_4m[0] + jetsb_4m[1]).M()
+                            allret["BJet1BJet2_Pt"       + sys] = (jetsb_4m[0] + jetsb_4m[1]).Pt()
+                            allret["Lep1Lep2BJet1BJet2MET_Pt"       + sys] = (leps_4m[0] + leps_4m[1] + jetsb_4m[0] + jetsb_4m[1]+met_4m).Pt()
+                            allret["Lep1Lep2BJet1BJet2MET_Mt"       + sys] = (leps_4m[0] + leps_4m[1] + jetsb_4m[0] + jetsb_4m[1]+met_4m).Mt()
+                            
+                            allret["Lep1BJet2_M"       + sys] = (leps_4m[0] + jetsb_4m[1]).M()
+                            allret["Lep2BJet2_M"       + sys] = (leps_4m[1] + jetsb_4m[1]).M()
+                            allret["Lep2BJet1_M"       + sys] = (leps_4m[1] + jetsb_4m[0]).M()
+                            allret["Lep1BJet1_M"       + sys] = (leps_4m[0] + jetsb_4m[0]).M()                            
+                            allret["minimax_bjets"          + sys] = min([max([allret["Lep1BJet1_M" + sys],allret["Lep2BJet2_M" + sys]]),max( allret["Lep2BJet1_M" + sys],allret["Lep1BJet2_M" + sys])])
+                            
+                            
+                            l1b1 = (leps_4m[0] + jetsbs_4m[0]).M()
+                            l2b1 = (leps_4m[1] + jetsbs_4m[0]).M()
+                            l1b2 = (leps_4m[0] + jetsbs_4m[1]).M()
+                            l2b2 = (leps_4m[1] + jetsbs_4m[1]).M()
+                            allret["minimax_bscore" + sys] = min(max(l1b1, l2b2), max(l2b1, l1b2))                            
+                                                        
         return allret

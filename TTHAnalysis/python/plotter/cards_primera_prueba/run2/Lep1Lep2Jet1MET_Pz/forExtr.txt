@@ -1,0 +1,73 @@
+## Datacard for cut file twttbar-run2UL/differential/cuts/cuts-detector-2j2t.txt
+shapes *        * forExtr.root x_$PROCESS x_$PROCESS_$SYSTEMATIC
+##----------------------------------
+bin         forExtr
+observation 0.00064
+##----------------------------------
+##----------------------------------
+bin                           
+process                       
+process                       
+rate                          
+##----------------------------------
+btagging_2016              lnN
+btagging_2016apv           lnN
+btagging_2018              lnN
+btagging_corr              lnN
+dy_norm                    lnN
+elecidsf                   lnN
+elecrecosf                 lnN
+elecsigma                  lnN
+fsr                        lnN
+isr                        lnN
+jer_2016                   lnN
+jer_2018                   lnN
+jes_Absolute               lnN
+jes_Absolute_2016          lnN
+jes_Absolute_2018          lnN
+jes_BBEC1                  lnN
+jes_BBEC1_2016             lnN
+jes_BBEC1_2018             lnN
+jes_EC2                    lnN
+jes_EC2_2016               lnN
+jes_EC2_2018               lnN
+jes_FlavorQCD              lnN
+jes_HF                     lnN
+jes_HF_2016                lnN
+jes_HF_2018                lnN
+jes_RelativeBal            lnN
+jes_RelativeSample_2016    lnN
+jes_RelativeSample_2018    lnN
+jetpuid_2016               lnN
+jetpuid_2016apv            lnN
+jetpuid_2018               lnN
+lumi_2016                  lnN
+lumi_2018                  lnN
+lumi_corr                  lnN
+lumi_corr1718              lnN
+mistagging_2016            lnN
+mistagging_2016apv         lnN
+mistagging_2018            lnN
+mistagging_corr            lnN
+muonen_2016                lnN
+muonen_2018                lnN
+muonidsf_stat_2016         lnN
+muonidsf_stat_2016apv      lnN
+muonidsf_stat_2018         lnN
+muonidsf_syst              lnN
+muonisosf_stat_2016        lnN
+muonisosf_stat_2016apv     lnN
+muonisosf_stat_2018        lnN
+muonisosf_syst             lnN
+nonworz_norm               lnN
+pdfhessian                 lnN
+pileup                     lnN
+prefiring_2016             lnN
+scales_muF                 lnN
+scales_muR                 lnN
+triggereff_2016            lnN
+triggereff_2016apv         lnN
+triggereff_2018            lnN
+unclenergy                 lnN
+vvttv_norm                 lnN
+* autoMCStats 10

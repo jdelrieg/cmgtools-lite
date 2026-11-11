@@ -1,0 +1,10 @@
+alwaystrue: 1
+
+trigger:           pass_trigger
+metfilters : ((year == 2016) && (Flag_goodVertices && Flag_globalSuperTightHalo2016Filter && Flag_HBHENoiseFilter && Flag_HBHENoiseIsoFilter && Flag_EcalDeadCellTriggerPrimitiveFilter && Flag_BadPFMuonFilter && Flag_BadPFMuonDzFilter && Flag_eeBadScFilter)) || ((year != 2016) && (Flag_goodVertices && Flag_globalSuperTightHalo2016Filter && Flag_HBHENoiseFilter && Flag_HBHENoiseIsoFilter && Flag_EcalDeadCellTriggerPrimitiveFilter && Flag_BadPFMuonFilter && Flag_BadPFMuonDzFilter && Flag_eeBadScFilter && Flag_ecalBadCalibFilter))
+mumu:               channel == 2
+
+dilep:             (nLepGood == 2) && (LepGood_pt_corrAll[0] > 25) && (LepGood_pt_corrAll[1] > 15) && isSS == 0 
+zveto:              (abs(Mll - 91.16) < 15)
+
+#nvertex: (PV_npvsGood >= 40)

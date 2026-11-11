@@ -1,0 +1,49 @@
+## Datacard for cut file twttbar-run2UL/differential/cuts/cuts-detectorparticle-2j2t.txt
+shapes *        * detectorparticlebutdetector.root x_$PROCESS x_$PROCESS_$SYSTEMATIC
+##----------------------------------
+bin         detectorparticlebutdetector
+observation 0.00016
+##----------------------------------
+##----------------------------------
+bin                           
+process                       
+process                       
+rate                          
+##----------------------------------
+btagging_2016apv           lnN
+btagging_corr              lnN
+elecidsf                   lnN
+elecrecosf                 lnN
+elecsigma                  lnN
+fsr                        lnN
+isr                        lnN
+jer_2016                   lnN
+jes_Absolute               lnN
+jes_Absolute_2016          lnN
+jes_BBEC1                  lnN
+jes_BBEC1_2016             lnN
+jes_EC2                    lnN
+jes_EC2_2016               lnN
+jes_FlavorQCD              lnN
+jes_HF                     lnN
+jes_HF_2016                lnN
+jes_RelativeBal            lnN
+jes_RelativeSample_2016    lnN
+jetpuid_2016apv            lnN
+lumi_2016                  lnN
+lumi_corr                  lnN
+mistagging_2016apv         lnN
+mistagging_corr            lnN
+muonen_2016                lnN
+muonidsf_stat_2016apv      lnN
+muonidsf_syst              lnN
+muonisosf_stat_2016apv     lnN
+muonisosf_syst             lnN
+pdfhessian                 lnN
+pileup                     lnN
+prefiring_2016             lnN
+scales_muF                 lnN
+scales_muR                 lnN
+triggereff_2016apv         lnN
+unclenergy                 lnN
+* autoMCStats 10

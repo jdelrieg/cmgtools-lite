@@ -1,0 +1,8 @@
+### Nominal samples
+incl_tot          : + ; IncludeMca="twttbar-run2UL/mca-twttbar/mca-twttbar.txt"
+
+##### bb4l
+incl_2016apv_bb4l : + ; years="2016apv",IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2016apv-bb4l.txt",SkipMe=True, genSumWeightName="genEventSumw"
+incl_2016_bb4l    : + ; years="2016",   IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2016-bb4l.txt",   SkipMe=True, genSumWeightName="genEventSumw"
+incl_2017_bb4l    : + ; years="2017",   IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2017-bb4l.txt",   SkipMe=True, genSumWeightName="genEventSumw"
+incl_2018_bb4l    : + ; years="2018",   IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2018-bb4l.txt",   SkipMe=True, genSumWeightName="genEventSumw"

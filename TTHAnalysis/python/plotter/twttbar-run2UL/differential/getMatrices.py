@@ -67,6 +67,7 @@ def GetAndPlotResponseMatrix(iY, var, key, theresponseh, theparticleh, thepath):
     #print "htemp 21", htemp.GetBinContent(2, 1)
     #print "htemp 11", htemp.GetBinContent(nparticlebins + 1, ndetectorbins + 1)
 
+    
     htemp.SetXTitle(vl.varList[var]['xaxis'] + " [particle level]")
     htemp.SetYTitle(vl.varList[var]['xaxis'] + " [detector level]")
     htemp.SetName("R" + var + "_" + key)
@@ -97,7 +98,18 @@ def GetAndPlotResponseMatrix(iY, var, key, theresponseh, theparticleh, thepath):
     htemptodraw = deepcopy(htemp.Clone("htemptodraw"))
     htemptodraw.Scale(100.)
     #print htemp.GetBinContent(2, 2)
-    htemptodraw.Draw("colz text e")
+    
+    htext = htemp.Clone("htemp_text")
+    htext.Scale(100.)
+    threshold = 1.0  
+    for i in range(1, htext.GetNbinsX()+1):
+        for j in range(1, htext.GetNbinsY()+1):
+            val = htext.GetBinContent(i, j)
+            if val < threshold:  htext.SetBinContent(i, j, 0);
+    
+    if var == "minimax_ATLAS": htemptodraw.Draw("colz ");htext.SetMarkerSize(0.6); htext.Draw("text same e");
+    else: htemptodraw.Draw("colz text e");
+    
     r.gStyle.SetPaintTextFormat("4.3f")
     CMS_lumi.lumi_13TeV = ""
     #CMS_lumi.extraText  = 'Simulation Supplementary'
@@ -459,6 +471,7 @@ def CalculateAndPlotResponseMatrices(tsk):
         os.system("mkdir -p " + tmpoutpath)
 
     foutput = r.TFile(inpath + "/" + iY + "/" + iV + "/UnfoldingInfo.root", "recreate")
+
     for key in detectordict:
         # if key != "": continue
         if key == "":
@@ -475,7 +488,7 @@ def CalculateAndPlotResponseMatrices(tsk):
 
         hResponse.Write()
         hNonFiducial.Write()
-        # if key == "": break
+        #if key == "": break
     foutput.Close()
 
     #SaveAcceptance(hParticle.Integral(), tmpoutpath)

@@ -34,18 +34,22 @@ def saveLaTeXfromhisto(histo, varname, path = "./", outname = "", ty = "detector
                 headers.append("[{inf}, $\\infty$)".format(inf = limits[b - 1]))
             else:
                 headers.append("[{inf}, {sup})".format(inf = limits[b - 1], sup = limits[b]))
+        if varname == "NJets": headers=['\\text{Number of jets}', '0', '1', '2', '3', '4', '\geq 5']
+        if varname == "NBJets": headers=['\\text{Number of b jets}', '0', '1', '2', '\geq 3']
+        
     else:
         for b in range(1, nbins + 1):
             if b == nbins:
-                headers.append("[{inf}, 1]".format(inf = round(usehisto.GetXaxis().GetBinLowEdge(b), 2)))
+                headers.append("[{inf}, 1]".format(inf = round(usehisto.GetXaxis().GetBinLowEdge(b), 3)))
             else:
-                headers.append("[{inf}, {sup})".format(inf = round(usehisto.GetXaxis().GetBinLowEdge(b), 2), sup = round(usehisto.GetXaxis().GetBinLowEdge(b + 1), 2)))
+                headers.append("[{inf}, {sup})".format(inf = round(usehisto.GetXaxis().GetBinLowEdge(b), 3), sup = round(usehisto.GetXaxis().GetBinLowEdge(b + 1), 3)))
 
     #### Construction of the table
     table[0].append(vl.TableDict[ty]["prefix"] + vl.varList[varname]["mathprintname"] + "\\right)$ " + vl.TableDict[ty]["dimensions"])
     table[1].append("Uncertainty " + vl.TableDict[ty]["dimensions"])
     for bn in range(1, nbins + 1):
         tmpval, tmpinc = getvalueandincstrings(usehisto, bn)
+        print('value',tmpval)
         table[0].append(tmpval); table[1].append(tmpinc)
 
     # To assure that we don't remove trailing zeros
@@ -96,8 +100,8 @@ def getvalueandincstrings(histo, b):
                                     #       transforming a float number into a string.
     valstring = str(Decimal(histo.GetBinContent(b)))
     incstring = str(Decimal(histo.GetBinError(b)))
-    ndeczeros = 0
-    numofdecs = 0
+    ndeczeros = 1
+    numofdecs = 1
 
     if "e" in (valstring + incstring):
         raise RuntimeError("Scientific notation detected: case not supported. Histo name: " + histo.GetName() + ", value: " + valstring + ", unc.: " + incstring)
@@ -105,7 +109,8 @@ def getvalueandincstrings(histo, b):
     if "." in incstring:
         incparts = incstring.split(".")
 
-        if incparts[0].replace("0", "") == "": # There is no non-decimal part
+        #if incparts[0].replace("0", "") == "": # There is no non-decimal part
+        if incparts[0].replace("0", "") in ["","1"]: # The upper version was the one JdR found, but that broke the NBJets case, where there was a 1.11 value returning a 1.0
             # Count figures that are zero
             if incparts[1][0] == "0":
                 selfig = "0"
@@ -281,6 +286,7 @@ def getcondnumLaTeXtable(path, variables, outname = "condnum", addasimov = False
         tmpfile.close()
 
     listoftuples.insert(0, ("Syst./Variable", listofsysts))
+    print(listofsysts)
     thedict = OrderedDict(listoftuples)
 
     #sys.exit()
@@ -289,6 +295,7 @@ def getcondnumLaTeXtable(path, variables, outname = "condnum", addasimov = False
 
     theheaders = [el[0] for el in listoftuples]
 
+    
     finallatextab = pt.PrettyTable(theheaders)
 
     for iS in range(len(listofsysts)):
@@ -308,6 +315,7 @@ def getcondnumLaTeXtable(path, variables, outname = "condnum", addasimov = False
         os.system("mkdir -p " + path + "/tables")
 
     outfile = open(path + "/tables/" + outname + ".tex", "w")
+    print('outfile name',outfile)
     outfile.write(thetab)
     outfile.close(); del outfile
     return
@@ -475,8 +483,11 @@ if __name__ == "__main__":
     if thetype == "condnumtable":
         print("> Producing LaTeX tables for the condition numbers")
         thefunc = "getcondnumLaTeXtable"
+        print(tasks)
+        
 
         for tsk in tasks:
+            
             eval(thefunc + "(tsk[0], tsk[1])")
 
 print("> Done!")

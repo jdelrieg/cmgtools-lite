@@ -11,10 +11,11 @@ import errorPropagator as ep
 import getLaTeXtable as tex
 import varList as vl
 import tdrstyle, CMS_lumi
+import numpy as np
 
 vl.SetUpWarnings()
 r.gROOT.SetBatch(True)
-verbose = False
+#verbose = False
 doArXiv     = True
 
 
@@ -317,20 +318,47 @@ def PlotParticleFidBinLevelResults(thedict, inpath, iY, varName, covmatnorm):
 
     #nominal_withErrors = ep.propagateHisto(thedict, doSym = vl.doSym)
     nominal_withErrors = [deepcopy(thedict["totalUp"]), deepcopy(thedict["totalDown"])]
+    
+    
+    if verbose:
+        h_up, h_down = deepcopy(thedict["totalUp"]), deepcopy(thedict["totalDown"])
+        nbins = h_up.GetNbinsX()
+        nominal_up   = [round((h_up.GetBinContent(i) + h_up.GetBinError(i))/h_up.GetBinContent(i)-1,4) for i in range(1, nbins+1)]
+        nominal_down = [round(1-(h_down.GetBinContent(i) - h_down.GetBinError(i))/h_down.GetBinContent(i),4) for i in range(1, nbins+1)]
+        print("Total Up values (%):", nominal_up,'\n')
+        #print("Total Down values:", nominal_down,'\n') Not writing since it is symmetric
+    
+
     #nominal_withErrors = [deepcopy(thedict[""]), deepcopy(thedict[""])]
     statOnlyList       = [deepcopy(thedict["statUp"]),  deepcopy(thedict["statDown"])]
+
     
+    if verbose:
+        h_up, h_down = deepcopy(thedict["statUp"]), deepcopy(thedict["statDown"])
+        nbins = h_up.GetNbinsX()
+        nominal_up_bis   = [round((h_up.GetBinContent(i) + h_up.GetBinError(i))/h_up.GetBinContent(i)-1,4) for i in range(1, nbins+1)]
+        nominal_down = [round(1-(h_down.GetBinContent(i) - h_down.GetBinError(i))/h_down.GetBinContent(i),4) for i in range(1, nbins+1)]
+        print("Only stat  values (%):", nominal_up_bis,'\n')
+        print("Only syst  values (%):", np.round(np.sqrt(np.array(nominal_up)**2-np.array(nominal_up_bis)**2),4),'\n')
+        #print("Only stat Down values:", nominal_down) Not writing since it is symmetric
+    
+
     for iB in range(1, thedict[""].GetNbinsX() + 1):
         # if nominal_withErrors[1].GetBinError(iB) > nominal_withErrors[1].GetBinContent(iB):
         #     nominal_withErrors[1].SetBinError(iB, nominal_withErrors[1].GetBinContent(iB))
 
         #print nominal_withErrors[0].GetBinError(iB), nominal_withErrors[1].GetBinError(iB), statOnlyList[0].GetBinError(iB), statOnlyList[1].GetBinError(iB)
-        thedict[""].SetBinError(iB, 1e-5)
+        thedict[""].SetBinError(iB, 1e-7)
 #        thedict[""].SetBinError(iB, 0)
 
     #sys.exit()
 
+
+
     plot               = bp.beautifulUnfPlot(varName + "_particlefidbin", varName)
+    if varName != "minimax_2j2b":plot.extraLabel = "#geq 2j2b - inclusive"
+    else: plot.extraLabel = "2j2b - exclusive"
+    if varName in ["NBJets","NJets"]:plot.extraLabel = "e^{#pm}#mu^{#mp}"
     plot.doRatio       = True
     plot.doFit         = False
     plot.plotspath     = inpath + "/" + iY + "/particlefidbinplots/"
@@ -348,10 +376,12 @@ def PlotParticleFidBinLevelResults(thedict, inpath, iY, varName, covmatnorm):
     statOnlyList[0].SetLineColor(0)
     statOnlyList[0].SetFillStyle(1001)
 
-    #tex.saveLaTeXfromhisto(thedict[""], varName, path = inpath + "/" + iY + "/tables", errhisto = nominal_withErrors[0], ty = "particlefidbin")
+    tex.saveLaTeXfromhisto(thedict[""], varName, path = inpath + "/" + iY + "/tables", errhisto = nominal_withErrors[0], ty = "particlefidbin")
 
     if "yaxismax_particlefidbin" in vl.varList[varName]:
         plot.yaxisuplimit = vl.varList[varName]["yaxismax_particlefidbin"]
+    if "yaxismin_particlefidbin" in vl.varList[varName]:
+        plot.yaxislowlimit = vl.varList[varName]["yaxismin_particlefidbin"]
 
     if "legpos_particlefidbin" in vl.varList[varName]:
         legloc = vl.varList[varName]["legpos_particlefidbin"]
@@ -366,6 +396,8 @@ def PlotParticleFidBinLevelResults(thedict, inpath, iY, varName, covmatnorm):
     
 
     tmptfile = r.TFile.Open(inpath + "/" + iY + "/" + varName + '/particle.root')
+
+
 
     tru                        = giveMeOneComparisonNormalised(tmptfile.Get('x_bb4l'),                       "bb4l",                        scaleval, varName)
     twttbardr                  = giveMeOneComparisonNormalised(tmptfile.Get('x_twttbardr'),                  "twttbardr",                  scaleval, varName)
@@ -411,9 +443,10 @@ def PlotParticleFidBinLevelResults(thedict, inpath, iY, varName, covmatnorm):
     plot.addHisto(nominal_withErrors, 'A2',     'Total unc.',    'F', 'total')
     plot.addHisto(statOnlyList,       '2,same', 'Stat unc.',     'F', 'stat')
     
-    plot.addHisto(tru,                     'P,same', 'b#bar{b}l^{+}#nu l^{-}#nu PH + P8','P', 'mc')
-    plot.addHisto(twttbardr,               'P,same', 'tW DR + t#bar{t} PH + P8',       'P', 'mc')
-    plot.addHisto(twttbards,               'P,same', 'tW DS + t#bar{t} PH + P8',       'P', 'mc')
+    #plot.addHisto(tru,                     'P,same', 'b#bar{b}l^{+}#nu l^{-}#nu PWG+PY8','P', 'mc')
+    plot.addHisto(tru,                     'P,same', 'bb4l PWG+PY8','P', 'mc')
+    plot.addHisto(twttbardr,               'P,same', 'tW DR + t#bar{t} PWG+PY8',       'P', 'mc')
+    plot.addHisto(twttbards,               'P,same', 'tW DS + t#bar{t} PWG+PY8',       'P', 'mc')
     #plot.addHisto(twttbarherwig,           'P,same', 'tW DR + t#bar{t} PH + H7',       'P', 'mc')
     #plot.addHisto(twttbaramc_dr,           'P,same', 'tW DR + t#bar{t} aMC + P8',      'P', 'mc')
     #plot.addHisto(twttbaramc_dr2,          'P,same', 'tW DR2 + t#bar{t} aMC + P8',     'P', 'mc')
@@ -428,13 +461,16 @@ def PlotParticleFidBinLevelResults(thedict, inpath, iY, varName, covmatnorm):
     for iB in range(1, dataHistoCopy.GetNbinsX() + 1):
         dataHistoCopy.SetBinError(iB, 0.)
     plot.addHisto(dataHistoCopy,           'P,E,same{s}'.format(s = ",X0" if "equalbinsunf" in vl.varList[varName] else ""),  vl.labellegend,                   "P" if "equalbinsunf" in vl.varList[varName] else "PL", 'data')
+    #plot.addCustomAxisLabels()
+    plot.saveCanvasv2(legloc)
+
 
 
     #print varName, 'P,same{s}'.format(s = ",X0" if "equalbinsunf" in vl.varList[varName] else "")
     #plot.addHisto(nominal_withErrors, 'A,same',     'Total unc.',    'F', 'bullshit')
 
 #    plot.saveCanvasv2(legloc, leg = False)
-    plot.saveCanvasv2(legloc)
+    #plot.saveCanvasv2(legloc)
 
     #plot.addHisto(nominal_withErrors, 'E2',     'Uncertainty',   'F')
     #plot.addHisto(thedict[""], 'P,same',vl.labellegend,'PE', 'data')
@@ -442,6 +478,10 @@ def PlotParticleFidBinLevelResults(thedict, inpath, iY, varName, covmatnorm):
     del plot
 
     plot2       = bp.beautifulUnfPlot(varName + 'uncs_particlefidbin', varName)
+    if varName != "minimax_2j2b": plot2.extraLabel = "#geq 2j2b - inclusive"
+    else: plot2.extraLabel = "2j2b - exclusive"
+    if varName in ["NBJets","NJets"]:plot2.extraLabel = "e^{#pm}#mu^{#mp}"
+    
     plot2.doFit         = False
     plot2.displayedLumi = vl.TotalLumi if iY == "run2" else vl.LumiDict[iY]
     plot2.doPreliminary = vl.doPre
@@ -480,6 +520,7 @@ if __name__ == "__main__":
     parser.add_argument('--extraArgs',   '-e',  metavar = 'extra',      dest = "extra",       required = False, default = "")
     parser.add_argument('--nthreads',    '-j',  metavar = 'nthreads',   dest = "nthreads",    required = False, default = 0, type = int)
     parser.add_argument('--pretend',     '-p',  action  = "store_true", dest = "pretend",     required = False, default = False)
+    parser.add_argument('--verbose',     '-V',  action  = "store_true", dest = "verbose",     required = False, default = False)
 
 
     args        = parser.parse_args()
@@ -489,6 +530,7 @@ if __name__ == "__main__":
     pretend     = args.pretend
     inpath      = args.inpath
     variable    = args.variable
+    verbose     = args.verbose
 
     #print("\n===== Unfolding procedures: Response matrices & ROOT files production =====")
     #print("> Setting binning, paths, and other details...")

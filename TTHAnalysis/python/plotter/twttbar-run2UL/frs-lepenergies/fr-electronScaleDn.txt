@@ -58,8 +58,20 @@ change: \bLep1Lep2Jet1_C\b:              Lep1Lep2Jet1_C_elscaleDown
 change: \bHTtot\b    :                   HTtot_elscaleDown
 
 change: \bminMllAFAS\b  :                minMllAFAS_elscaleDown
+change: \bminimax_bjets\b  :                   minimax_bjets_elscaleDown
+change: \bminimax_bscore\b  :                   minimax_bscore_elscaleDown
+change: \bLep1BJet1_M\b  :                   Lep1BJet1_M_elscaleDown
+change: \bLep1BJet2_M\b  :                   Lep1BJet2_M_elscaleDown
+change: \bLep2BJet1_M\b  :                   Lep2BJet1_M_elscaleDown
+change: \bLep2BJet2_M\b  :                   Lep2BJet2_M_elscaleDown
 change: \bminimax\b  :                   minimax_elscaleDown
 change: \bLep1Jet2_M\b:                  Lep1Jet2_M_elscaleDown
 change: \bLep2Jet2_M\b:                  Lep2Jet2_M_elscaleDown
+
+change: \bLep1Lep2BJet1BJet2MET_Mt\b:                Lep1Lep2BJet1BJet2MET_Mt_elscaleDown
+change: \bLep1Lep2BJet1BJet2MET_Pt\b:                Lep1Lep2BJet1BJet2MET_Pt_elscaleDown
+change: \bLep1Lep2BJet1BJet2_M\b:                Lep1Lep2BJet1BJet2_M_elscaleDown
+change: \bLep1Lep2BJet1BJet2_Pt\b:                Lep1Lep2BJet1BJet2_Pt_elscaleDown
+change: \bBJet1BJet2_Pt\b:                BJet1BJet2_Pt_elscaleDown
 
 weight: 1

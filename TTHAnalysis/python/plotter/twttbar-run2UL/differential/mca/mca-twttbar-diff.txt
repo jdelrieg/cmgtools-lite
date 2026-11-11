@@ -7,3 +7,8 @@ incl_2016apv_comp : + ; years="2016apv",IncludeMca="twttbar-run2UL/differential/
 incl_2016_comp    : + ; years="2016",   IncludeMca="twttbar-run2UL/differential/mca/mca-2016-twttbar.txt"   , genSumWeightName="genEventSumw"
 incl_2017_comp    : + ; years="2017",   IncludeMca="twttbar-run2UL/differential/mca/mca-2017-twttbar.txt"   , genSumWeightName="genEventSumw"
 incl_2018_comp    : + ; years="2018",   IncludeMca="twttbar-run2UL/differential/mca/mca-2018-twttbar.txt"   , genSumWeightName="genEventSumw"
+
+incl_2016_uncs         : + ; years="2016",   IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2016-bb4l-uncs.txt"   , genSumWeightName="genEventSumw"
+incl_2016apv_uncs         : + ; years="2016apv",   IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2016apv-bb4l-uncs.txt"   , genSumWeightName="genEventSumw"
+incl_2017_uncs         : + ; years="2017",   IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2017-bb4l-uncs.txt"   , genSumWeightName="genEventSumw"
+incl_2018_uncs         : + ; years="2018",   IncludeMca="twttbar-run2UL/mca-twttbar/mca-includes/mca-2018-bb4l-uncs.txt"   , genSumWeightName="genEventSumw"
